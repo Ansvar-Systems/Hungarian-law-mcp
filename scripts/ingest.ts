@@ -562,8 +562,9 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
         }
 
         html = result.body;
+        fs.writeFileSync(sourceFile, html);
 
-        if (!html.includes('jogszabalyMainTitle') || !html.includes('szakasz-jel')) {
+        if (!html.includes('jogszabalyMainTitle') || !html.includes('class="jhId"')) {
           const metadataOnly = toMetadataOnlyAct(act);
           fs.writeFileSync(seedFile, `${JSON.stringify(metadataOnly, null, 2)}\n`);
 
@@ -582,7 +583,6 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
           continue;
         }
 
-        fs.writeFileSync(sourceFile, html);
         if (verbosePerAct) {
           console.log(` OK (${(html.length / 1024).toFixed(0)} KB)`);
         }
@@ -590,6 +590,30 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
 
       const hydratedHtml = await hydrateDeferredBlocks(html, act, verbosePerAct);
       const parsed = parseHungarianHtml(hydratedHtml, act);
+
+      if (parsed.provisions.length === 0) {
+        const metadataOnly = toMetadataOnlyAct({
+          ...act,
+          title: parsed.title,
+        });
+        fs.writeFileSync(seedFile, `${JSON.stringify(metadataOnly, null, 2)}\n`);
+
+        if (verbosePerAct) {
+          console.log('    -> 0 provisions extracted, stored as METADATA_ONLY');
+        } else {
+          console.log(`  [${processed + 1}/${acts.length}] ${act.shortName ?? act.id} -> METADATA_ONLY (NO_SECTION_CONTENT)`);
+        }
+
+        results.push({
+          act: act.shortName ?? act.id,
+          provisions: 0,
+          definitions: 0,
+          status: 'METADATA_ONLY',
+        });
+        processed++;
+        continue;
+      }
+
       fs.writeFileSync(seedFile, `${JSON.stringify(parsed, null, 2)}\n`);
 
       totalProvisions += parsed.provisions.length;

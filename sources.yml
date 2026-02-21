@@ -15,7 +15,7 @@ sources:
       summary: "Legislative texts are sourced from the official national legislation portal."
     coverage:
       scope: "Full indexed corpus of Hungarian statutes discoverable via njt.hu simple search (author_type=törvény), including canonical curated statutes and discovered hu-law-* records."
-      limitations: "A subset of legacy statutes expose no section-level HTML in public njt.hu pages and are stored as metadata-only records (no fabricated provisions). Some canonical statutes are represented under stable curated MCP IDs with hu-law-* metadata aliases."
+      limitations: "As of 2026-02-21, 4 legacy statutes expose no extractable body text in public njt.hu HTML and are stored as metadata-only records (no fabricated provisions). Some canonical statutes are represented under stable curated MCP IDs with hu-law-* metadata aliases."
     languages:
       - "hu"
       - "en"

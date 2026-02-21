@@ -54,6 +54,13 @@ interface SectionAccumulator {
   blocks: string[];
 }
 
+interface NjtBlock {
+  blockId: string;
+  blockClass: string;
+  blockHtml: string;
+  blockPos: number;
+}
+
 function decodeHtmlEntities(input: string): string {
   const named = input
     .replace(/&nbsp;/g, ' ')
@@ -103,6 +110,9 @@ function parseSectionFromMarker(rawMarker: string): string {
 }
 
 function parseSectionFromKey(key: string): string {
+  if (key.startsWith('ART_')) return key.slice(4);
+  if (key.startsWith('LEGACY_')) return key.slice(7);
+
   const match = key.match(/^(\d+)([A-Z]+)?$/);
   if (!match) return key;
   const num = match[1];
@@ -125,8 +135,70 @@ function parseSectionKeyFromBlockId(blockId: string): string | null {
   return `${sectionMatch[1]}${sectionMatch[2] ?? ''}`;
 }
 
+function parseSectionFromText(blockHtml: string): string | null {
+  const text = htmlToText(blockHtml);
+  const match = text.match(/^(\d+[A-Za-z]?(?:\/[A-Za-z]+)?)\s*\.?\s*§/);
+  if (!match) return null;
+
+  return match[1].toUpperCase();
+}
+
+function parseArticleFromText(blockHtml: string): string | null {
+  const text = htmlToText(blockHtml);
+  const match = text.match(/^([IVXLCDM]+|\d+)\s*\.\s*(?:Czikk|Cikk|CZIKK)\.?/i);
+  if (!match) return null;
+
+  return match[1].toUpperCase();
+}
+
+function articleToKey(article: string): string {
+  return `ART_${article.replace(/[^0-9A-Za-z]/g, '').toUpperCase()}`;
+}
+
+function extractNjtBlocks(html: string): NjtBlock[] {
+  const markerRegex = /<span class="jhId" id="([^"]+)"><\/span>/g;
+  const markers = Array.from(html.matchAll(markerRegex));
+  const blocks: NjtBlock[] = [];
+
+  for (let i = 0; i < markers.length; i++) {
+    const marker = markers[i];
+    const start = marker.index;
+    if (typeof start !== 'number') continue;
+
+    const chunkStart = start + marker[0].length;
+    const nextStart = (i + 1 < markers.length && typeof markers[i + 1].index === 'number')
+      ? markers[i + 1].index as number
+      : html.length;
+
+    const blockHtml = html.slice(chunkStart, nextStart).trim();
+    if (blockHtml.length === 0) continue;
+
+    const classMatch = blockHtml.match(/^<(?:div|h1|h2)\b[^>]*class="([^"]*)"/i);
+    const blockClass = classMatch?.[1] ?? '';
+
+    blocks.push({
+      blockId: marker[1],
+      blockClass,
+      blockHtml,
+      blockPos: start,
+    });
+  }
+
+  return blocks;
+}
+
 function isSectionContentClass(blockClass: string): boolean {
-  return /(szakasz|bekezdes|pont|alpont|mondat|szoveg)/i.test(blockClass);
+  return /(szakasz|bekezdes|pont|alpont|mondat|szoveg|szelet)/i.test(blockClass);
+}
+
+function isLegacyContentClass(blockClass: string): boolean {
+  return /(preambulum|bekezdes|pont|alpont|mondat|szoveg|szelet)/i.test(blockClass);
+}
+
+function provisionTitleFromKey(key: string, section: string): string {
+  if (key.startsWith('ART_')) return `${section}. Cikk`;
+  if (key.startsWith('LEGACY_')) return section;
+  return `${section}. §`;
 }
 
 function toProvisionRef(section: string): string {
@@ -191,21 +263,14 @@ function extractOfficialTitle(html: string): string | null {
 export function parseHungarianHtml(html: string, act: ActIndexEntry): ParsedAct {
   const sections = new Map<string, SectionAccumulator>();
   const definitions: ParsedDefinition[] = [];
-
-  // Parsed in document order to preserve statute ordering.
-  const blockRegex =
-    /<span class="jhId" id="([^"]+)"><\/span><div id="[^"]+" class="([^"]+)">([\s\S]*?)<\/div><!--[a-z]+-->(?:<!--[a-z]+-->)?/g;
+  const blocks = extractNjtBlocks(html);
 
   let currentChapterNumber = '';
   let currentChapterTitle = '';
   let activeSectionKey: string | null = null;
 
-  let blockMatch: RegExpExecArray | null;
-  while ((blockMatch = blockRegex.exec(html)) !== null) {
-    const blockId = blockMatch[1];
-    const blockClass = blockMatch[2];
-    const blockHtml = blockMatch[3];
-    const blockPos = blockMatch.index;
+  for (const block of blocks) {
+    const { blockId, blockClass, blockHtml, blockPos } = block;
 
     if (blockClass === 'fejezet') {
       currentChapterNumber = htmlToText(blockHtml);
@@ -214,15 +279,20 @@ export function parseHungarianHtml(html: string, act: ActIndexEntry): ParsedAct 
     }
 
     const markerMatch = blockHtml.match(/<span class="szakasz-jel">([\s\S]*?)<\/span>/i);
-    const sectionFromMarker = markerMatch ? parseSectionFromMarker(markerMatch[1]) : '';
+    const sectionFromMarker = markerMatch ? parseSectionFromMarker(markerMatch[1]) : null;
+    const sectionFromText = sectionFromMarker ?? parseSectionFromText(blockHtml);
+    const articleFromText = parseArticleFromText(blockHtml);
     const keyFromId = parseSectionKeyFromBlockId(blockId);
 
     let key: string | null = null;
     if (keyFromId) {
       key = keyFromId;
       activeSectionKey = keyFromId;
-    } else if (sectionFromMarker.length > 0) {
-      key = sectionToKey(sectionFromMarker);
+    } else if (sectionFromText && sectionFromText.length > 0) {
+      key = sectionToKey(sectionFromText);
+      activeSectionKey = key;
+    } else if (articleFromText) {
+      key = articleToKey(articleFromText);
       activeSectionKey = key;
     } else if (activeSectionKey && isSectionContentClass(blockClass)) {
       key = activeSectionKey;
@@ -245,14 +315,35 @@ export function parseHungarianHtml(html: string, act: ActIndexEntry): ParsedAct 
       sections.set(key, acc);
     }
 
-    if (sectionFromMarker.length > 0) {
-      acc.section = sectionFromMarker;
+    if (sectionFromText && sectionFromText.length > 0) {
+      acc.section = sectionFromText;
+    } else if (articleFromText) {
+      acc.section = articleFromText;
     } else if (!acc.section) {
       acc.section = parseSectionFromKey(key);
     }
 
-    if (isSectionContentClass(blockClass) || sectionFromMarker.length > 0) {
+    if (isSectionContentClass(blockClass) || !!sectionFromText || !!articleFromText) {
       acc.blocks.push(blockHtml);
+    }
+  }
+
+  if (sections.size === 0) {
+    let legacyIndex = 0;
+    for (const block of blocks) {
+      if (!isLegacyContentClass(block.blockClass)) continue;
+
+      const text = htmlToText(block.blockHtml);
+      if (text.length === 0) continue;
+
+      legacyIndex++;
+      const key = `LEGACY_${legacyIndex}`;
+      sections.set(key, {
+        key,
+        section: String(legacyIndex),
+        firstPos: block.blockPos,
+        blocks: [block.blockHtml],
+      });
     }
   }
 
@@ -278,7 +369,7 @@ export function parseHungarianHtml(html: string, act: ActIndexEntry): ParsedAct 
       provision_ref: provisionRef,
       chapter: sectionData.chapter,
       section,
-      title: `${section}. §`,
+      title: provisionTitleFromKey(sectionData.key, section),
       content,
     });
 
