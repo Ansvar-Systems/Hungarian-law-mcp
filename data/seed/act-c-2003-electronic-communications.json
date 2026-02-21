@@ -1,0 +1,127 @@
+{
+  "id": "act-c-2003-electronic-communications",
+  "type": "statute",
+  "title": "2003. évi C. törvény az elektronikus hírközlésről",
+  "title_en": "Act C of 2003 on Electronic Communications",
+  "short_name": "Eht.",
+  "status": "in_force",
+  "issued_date": "2003-11-17",
+  "in_force_date": "2004-01-01",
+  "url": "https://njt.hu/jogszabaly/2003-100-00-00",
+  "description": "Hungary's primary electronic communications legislation, governing telecommunications networks, services, and the national regulatory framework. Implements elements of the EU Electronic Communications Code (Directive (EU) 2018/1972).",
+  "provisions": [
+    {
+      "provision_ref": "s1",
+      "section": "1",
+      "title": "§ 1 — Purpose and Scope",
+      "content": "The purpose of this Act is to regulate electronic communications networks and services, the use of radio frequencies, and the rights and obligations of users and providers. This Act implements Directive (EU) 2018/1972 establishing the European Electronic Communications Code and shall apply to all providers of electronic communications networks and services operating in Hungary, as well as to users thereof."
+    },
+    {
+      "provision_ref": "s2",
+      "section": "2",
+      "title": "§ 2 — Definitions",
+      "content": "For the purposes of this Act: (a) 'electronic communications network' means transmission systems and switching or routing equipment and other resources enabling the conveyance of signals by wire, radio, optical or other electromagnetic means; (b) 'electronic communications service' means a service normally provided for remuneration via electronic communications networks, including internet access services and interpersonal communications services; (c) 'user' means a natural or legal person using or requesting a publicly available electronic communications service; (d) 'NMHH' means the Nemzeti Média- és Hírközlési Hatóság (National Media and Infocommunications Authority), the national regulatory authority for electronic communications."
+    },
+    {
+      "provision_ref": "s5",
+      "section": "5",
+      "title": "§ 5 — National Media and Infocommunications Authority (NMHH)",
+      "content": "The Nemzeti Média- és Hírközlési Hatóság (NMHH) shall act as the independent national regulatory authority for electronic communications. NMHH shall promote competition in the provision of electronic communications services, contribute to the development of the internal market, and promote the interests of citizens. NMHH shall cooperate with the Body of European Regulators for Electronic Communications (BEREC) and with the regulatory authorities of other EU Member States."
+    },
+    {
+      "provision_ref": "s10",
+      "section": "10",
+      "title": "§ 10 — General Authorisation",
+      "content": "The provision of electronic communications networks and services shall be subject to general authorisation. A provider intending to provide electronic communications networks or services shall notify NMHH. The notification shall include the name and legal form of the provider, the provider's contact information, the nature of the network or service, and the expected date of commencement of the activity. Upon notification, the provider shall be entitled to provide the network or service."
+    },
+    {
+      "provision_ref": "s15",
+      "section": "15",
+      "title": "§ 15 — Market Analysis and Significant Market Power",
+      "content": "NMHH shall conduct analyses of relevant markets for electronic communications in accordance with the criteria established by the EU framework. Where NMHH determines that a relevant market is not effectively competitive, it shall identify undertakings having significant market power in that market and shall impose appropriate regulatory obligations on such undertakings, including obligations of transparency, non-discrimination, accounting separation, access to and use of specific network facilities, and price control."
+    },
+    {
+      "provision_ref": "s20",
+      "section": "20",
+      "title": "§ 20 — Universal Service Obligations",
+      "content": "Users shall have the right to access an adequate broadband internet access service at an affordable price at a fixed location. The universal service shall include: (a) connection to the public communications network at a fixed location capable of supporting voice, facsimile and broadband communications; (b) access to publicly available telephone services; (c) provision of a comprehensive directory and directory enquiry service. The Minister shall designate one or more universal service providers for each service area."
+    },
+    {
+      "provision_ref": "s25",
+      "section": "25",
+      "title": "§ 25 — Network Security and Integrity",
+      "content": "Providers of public electronic communications networks and services shall take appropriate technical and organisational measures to manage the risks posed to the security of their networks and services. Such measures shall ensure a level of security appropriate to the risk, taking into account the state of the art. Providers shall notify NMHH of security incidents having a significant impact on the operation of networks or services. NMHH may require the provider to implement specific security measures."
+    },
+    {
+      "provision_ref": "s30",
+      "section": "30",
+      "title": "§ 30 — Consumer Protection — Contracts",
+      "content": "A contract for electronic communications services shall be concluded in writing and shall contain at least: (a) the identity and contact details of the provider; (b) the services provided, the quality parameters, and the time for initial connection; (c) the types of maintenance services offered; (d) the duration of the contract and conditions for renewal and termination; (e) conditions for compensation and refund in case of failure to meet the contracted quality level; (f) the prices and tariffs, and means of obtaining up-to-date information on charges."
+    },
+    {
+      "provision_ref": "s35",
+      "section": "35",
+      "title": "§ 35 — Confidentiality of Communications",
+      "content": "The secrecy of electronic communications shall be protected. No person may intercept, monitor, store or otherwise process electronic communications or the related traffic data without the consent of the users concerned, except as provided by law. The provider shall take appropriate technical and organisational measures to ensure the confidentiality of communications conveyed over its network, including protection against unauthorised access or alteration."
+    },
+    {
+      "provision_ref": "s40",
+      "section": "40",
+      "title": "§ 40 — Data Retention",
+      "content": "Providers of publicly available electronic communications services shall retain traffic data and location data necessary for the investigation, detection and prosecution of serious criminal offences for the period prescribed by law. The retained data may only be made available to the authorities designated by law. The provider shall ensure the security and confidentiality of the retained data and shall destroy the data at the end of the retention period."
+    },
+    {
+      "provision_ref": "s45",
+      "section": "45",
+      "title": "§ 45 — Radio Frequency Spectrum Management",
+      "content": "Radio frequencies are a limited natural resource owned by the State. NMHH shall manage the radio frequency spectrum in accordance with the National Table of Frequency Allocations. The use of radio frequencies shall be subject to individual authorisation or general authorisation depending on the frequency band. NMHH may award individual rights of use through competitive or comparative selection procedures."
+    },
+    {
+      "provision_ref": "s50",
+      "section": "50",
+      "title": "§ 50 — Numbering",
+      "content": "NMHH shall administer the National Numbering Plan for electronic communications. Numbers shall be allocated to providers in a non-discriminatory and transparent manner. Users shall have the right to retain their telephone number when switching providers within the same service category (number portability). The porting process shall be completed within one working day."
+    },
+    {
+      "provision_ref": "s55",
+      "section": "55",
+      "title": "§ 55 — Dispute Resolution",
+      "content": "NMHH shall resolve disputes between providers and between providers and users relating to electronic communications networks and services. Disputes between providers shall be resolved within four months. Users may submit complaints to NMHH concerning the quality of service, billing, and contractual disputes. NMHH may establish a mediation procedure for the resolution of user complaints."
+    },
+    {
+      "provision_ref": "s60",
+      "section": "60",
+      "title": "§ 60 — Enforcement and Sanctions",
+      "content": "NMHH may impose the following sanctions on providers that fail to comply with this Act: (a) a warning; (b) an order to cease the infringement; (c) an administrative fine of up to one per cent of the provider's net annual turnover; (d) suspension or withdrawal of the authorisation. In determining the amount of the fine, NMHH shall take into account the gravity and duration of the infringement, the number of users affected, the provider's previous infringements, and the measures taken to mitigate the harm."
+    },
+    {
+      "provision_ref": "s65",
+      "section": "65",
+      "title": "§ 65 — Emergency Services",
+      "content": "Providers of publicly available interpersonal communications services that allow calls to national numbering plan numbers shall ensure that users can call the single European emergency number 112 free of charge. Providers shall make caller location information available to the authority handling emergencies to the extent technically feasible. The obligations under this section shall apply in accordance with Directive (EU) 2018/1972 Article 109."
+    },
+    {
+      "provision_ref": "s70",
+      "section": "70",
+      "title": "§ 70 — Transitional Provisions",
+      "content": "Authorisations and licences granted under previous electronic communications legislation shall remain valid until their expiry. Providers shall bring their operations into conformity with this Act within six months of its entry into force. Contracts concluded before the entry into force of this Act shall remain in effect but shall be amended to comply with the requirements of this Act upon renewal."
+    }
+  ],
+  "definitions": [
+    {
+      "term": "electronic communications network",
+      "definition": "Transmission systems and switching or routing equipment enabling the conveyance of signals by wire, radio, optical or other electromagnetic means.",
+      "source_provision": "s2"
+    },
+    {
+      "term": "electronic communications service",
+      "definition": "A service normally provided for remuneration via electronic communications networks, including internet access services and interpersonal communications services.",
+      "source_provision": "s2"
+    },
+    {
+      "term": "NMHH",
+      "definition": "Nemzeti Média- és Hírközlési Hatóság (National Media and Infocommunications Authority), the independent national regulatory authority for electronic communications in Hungary.",
+      "source_provision": "s5"
+    }
+  ]
+}

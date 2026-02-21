@@ -1,0 +1,133 @@
+{
+  "id": "act-lxiii-1999-public-procurement",
+  "type": "statute",
+  "title": "2015. évi CXLIII. törvény a közbeszerzésekről",
+  "title_en": "Act CXLIII of 2015 on Public Procurement — Digital Provisions",
+  "short_name": "Kbt.",
+  "status": "in_force",
+  "issued_date": "2015-11-02",
+  "in_force_date": "2015-11-01",
+  "url": "https://njt.hu/jogszabaly/2015-143-00-00",
+  "description": "Hungary's current public procurement legislation (replacing the earlier Act LXIII of 1999). Digital provisions covering electronic procurement, cybersecurity requirements in public contracts, and ICT procurement rules. Implements Directive 2014/24/EU on public procurement and Directive 2014/25/EU on procurement by entities in the water, energy, transport and postal services sectors.",
+  "provisions": [
+    {
+      "provision_ref": "s1",
+      "section": "1",
+      "title": "§ 1 — Purpose and Scope",
+      "content": "This Act establishes the rules for public procurement procedures in Hungary, ensuring transparency, equal treatment, non-discrimination and competition in the award of public contracts. The Act applies to the award of public works, supply and service contracts by contracting authorities and contracting entities. This Act implements Directive 2014/24/EU of the European Parliament and of the Council on public procurement."
+    },
+    {
+      "provision_ref": "s5",
+      "section": "5",
+      "title": "§ 5 — Electronic Procurement Platform (EKR)",
+      "content": "All public procurement procedures shall be conducted through the Electronic Public Procurement System (Elektronikus Közbeszerzési Rendszer, EKR). The EKR shall provide a secure electronic platform for: (a) publication of contract notices; (b) electronic submission of tenders and requests to participate; (c) electronic communication between contracting authorities and economic operators; (d) electronic evaluation and documentation of procurement procedures. The use of EKR is mandatory for all contracting authorities."
+    },
+    {
+      "provision_ref": "s10",
+      "section": "10",
+      "title": "§ 10 — Technical Standards for Electronic Submissions",
+      "content": "Electronic submissions through EKR shall comply with the following technical requirements: (a) tenders shall be submitted in a secure, encrypted format ensuring confidentiality until the opening date; (b) electronic signatures shall comply with the requirements of Act CCXXII of 2015 on Trust Services and Regulation (EU) No 910/2014 (eIDAS Regulation); (c) the system shall ensure the integrity and non-repudiation of submitted documents; (d) time-stamping of submissions shall be provided by a qualified trust service."
+    },
+    {
+      "provision_ref": "s15",
+      "section": "15",
+      "title": "§ 15 — ICT Procurement Requirements",
+      "content": "Where the subject of a public procurement procedure is the acquisition of information and communication technology (ICT) products, services or systems, the contracting authority shall include cybersecurity requirements in the technical specifications. Such requirements shall include: (a) compliance with recognised security standards (e.g., ISO 27001, Common Criteria); (b) secure software development practices; (c) vulnerability management and patching commitments; (d) data protection by design and by default. For contracts involving classified or sensitive information systems, additional security requirements shall apply as prescribed by the competent authority."
+    },
+    {
+      "provision_ref": "s18",
+      "section": "18",
+      "title": "§ 18 — Cybersecurity in Public Contracts",
+      "content": "Contracting authorities procuring ICT systems or services for use in connection with the performance of public duties shall ensure that the contractual terms include: (a) an obligation for the supplier to report security vulnerabilities and incidents; (b) an obligation for the supplier to maintain the security of the system for the duration of the contract; (c) the right of the contracting authority to conduct or commission security audits; (d) data protection provisions compliant with Regulation (EU) 2016/679 (GDPR). Contracting authorities shall consult with the Nemzetbiztonsági Szakszolgálat (SSNS) for procurements involving critical information systems."
+    },
+    {
+      "provision_ref": "s20",
+      "section": "20",
+      "title": "§ 20 — Electronic Auction",
+      "content": "The contracting authority may use an electronic auction as a final phase of an open procedure, restricted procedure, or negotiated procedure. The electronic auction shall be conducted through the EKR platform. The contracting authority shall specify the mathematical formula to be used for ranking tenders. The auction shall not be used for the procurement of intellectual services, including custom software development."
+    },
+    {
+      "provision_ref": "s25",
+      "section": "25",
+      "title": "§ 25 — Dynamic Purchasing System",
+      "content": "A contracting authority may establish a dynamic purchasing system for the procurement of commonly used goods, works or services. The dynamic purchasing system shall be operated electronically through the EKR platform. All economic operators satisfying the selection criteria shall be admitted to the system. The system shall remain open for new admissions throughout its entire duration."
+    },
+    {
+      "provision_ref": "s30",
+      "section": "30",
+      "title": "§ 30 — European Single Procurement Document (ESPD)",
+      "content": "Economic operators may submit a European Single Procurement Document (ESPD) as preliminary evidence in electronic form through the EKR platform. The ESPD shall replace certificates issued by public authorities or third parties confirming that the economic operator meets the exclusion and selection criteria. The ESPD shall be accepted in electronic form in compliance with Directive 2014/24/EU Article 59."
+    },
+    {
+      "provision_ref": "s35",
+      "section": "35",
+      "title": "§ 35 — Electronic Invoicing",
+      "content": "Contracting authorities shall accept and process electronic invoices issued by suppliers in connection with public contracts. Electronic invoices shall comply with the European standard on electronic invoicing (EN 16931) and shall be submitted through the designated electronic invoicing platform. This provision implements Directive 2014/55/EU on electronic invoicing in public procurement."
+    },
+    {
+      "provision_ref": "s40",
+      "section": "40",
+      "title": "§ 40 — Data Protection in Procurement",
+      "content": "The processing of personal data in connection with public procurement procedures shall comply with Regulation (EU) 2016/679 (GDPR) and Act CXII of 2011 on Informational Self-Determination and Freedom of Information. The contracting authority shall inform economic operators of the processing of their personal data and shall ensure that personal data is retained only for the period necessary for the purposes of the procurement procedure and subsequent audit."
+    },
+    {
+      "provision_ref": "s45",
+      "section": "45",
+      "title": "§ 45 — Accessibility of Electronic Procurement",
+      "content": "The EKR platform and all electronic procurement tools shall comply with the accessibility requirements prescribed by Directive (EU) 2016/2102 on the accessibility of websites and mobile applications of public sector bodies. The contracting authority shall ensure that tender documents published electronically are accessible to persons with disabilities."
+    },
+    {
+      "provision_ref": "s50",
+      "section": "50",
+      "title": "§ 50 — Innovation Partnership",
+      "content": "The contracting authority may use the innovation partnership procedure for the procurement of innovative products, services or works not available on the market. The innovation partnership shall be conducted in successive phases, with the possibility of reducing the number of partners after each phase. The procedure may be used for the procurement of innovative ICT solutions, cybersecurity products and digital government services."
+    },
+    {
+      "provision_ref": "s55",
+      "section": "55",
+      "title": "§ 55 — Record-Keeping and Audit Trail",
+      "content": "Contracting authorities shall maintain a complete electronic record of all procurement procedures conducted through EKR, including all communications, tenders, evaluations and decisions. Records shall be retained for a minimum of five years from the date of the award decision. The audit trail shall ensure the integrity, authenticity and non-repudiation of electronic records."
+    },
+    {
+      "provision_ref": "s60",
+      "section": "60",
+      "title": "§ 60 — Közbeszerzési Hatóság (Public Procurement Authority)",
+      "content": "The Közbeszerzési Hatóság (Public Procurement Authority, KH) shall act as the supervisory body for public procurement in Hungary. KH shall: (a) maintain and operate the EKR platform; (b) publish procurement notices; (c) issue guidance and recommendations; (d) conduct investigations into procurement irregularities; (e) compile annual statistics on public procurement; (f) cooperate with the European Commission and with the procurement authorities of other Member States."
+    },
+    {
+      "provision_ref": "s65",
+      "section": "65",
+      "title": "§ 65 — Review Procedures",
+      "content": "Economic operators may challenge procurement decisions before the Közbeszerzési Döntőbizottság (Public Procurement Arbitration Board). Challenges must be filed electronically within the time limit prescribed by this Act. The Arbitration Board shall conduct proceedings electronically to the extent feasible. Decisions of the Arbitration Board may be appealed before the competent court."
+    },
+    {
+      "provision_ref": "s70",
+      "section": "70",
+      "title": "§ 70 — Sanctions",
+      "content": "The Public Procurement Authority may impose the following sanctions for non-compliance: (a) a fine of up to fifteen per cent of the contract value; (b) suspension of the contracting authority's procurement activity; (c) annulment of the contract award. The Arbitration Board may impose fines of up to five per cent of the contract value on contracting authorities or economic operators that breach procurement rules."
+    },
+    {
+      "provision_ref": "s75",
+      "section": "75",
+      "title": "§ 75 — Transitional Provisions",
+      "content": "Contracting authorities shall transition to the mandatory use of EKR within one year of the entry into force of this Act. Procurement procedures commenced before the entry into force of this Act shall be concluded under the rules applicable at the time of commencement. The implementing regulations concerning the technical specifications of EKR shall be adopted by Government decree."
+    }
+  ],
+  "definitions": [
+    {
+      "term": "EKR",
+      "definition": "Elektronikus Közbeszerzési Rendszer (Electronic Public Procurement System), the mandatory electronic platform for conducting public procurement procedures in Hungary.",
+      "source_provision": "s5"
+    },
+    {
+      "term": "contracting authority",
+      "definition": "A body governed by public law that is obliged to conduct public procurement procedures in accordance with this Act.",
+      "source_provision": "s1"
+    },
+    {
+      "term": "ESPD",
+      "definition": "European Single Procurement Document, preliminary self-declaration by economic operators as evidence of meeting exclusion and selection criteria.",
+      "source_provision": "s30"
+    }
+  ]
+}

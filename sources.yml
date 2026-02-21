@@ -1,0 +1,25 @@
+schema_version: "1.0"
+mcp_name: "Hungarian Law MCP"
+jurisdiction: "HU"
+
+sources:
+  - name: "Nemzeti Jogszabálytár (National Legislation Database)"
+    authority: "Magyar Közlöny (Hungarian Official Gazette)"
+    official_portal: "https://njt.hu"
+    retrieval_method: "HTML_SCRAPE"
+    update_frequency: "weekly"
+    last_ingested: "2026-02-21"
+    license_or_terms:
+      type: "Hungarian Government Open Data (public domain under Hungarian Copyright Act § 1)"
+      url: "https://njt.hu"
+      summary: "Official legislative texts are public domain"
+    coverage:
+      scope: "Key Hungarian legislation covering data protection, cybersecurity, e-commerce, criminal law cyber provisions, and related statutes"
+      limitations: "AI-generated seed data; full official ingestion pending"
+    languages:
+      - "hu"
+
+data_freshness:
+  automated_checks: true
+  check_frequency: "weekly"
+  last_verified: "2026-02-21"

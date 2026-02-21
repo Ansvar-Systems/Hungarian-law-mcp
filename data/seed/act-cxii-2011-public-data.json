@@ -1,0 +1,156 @@
+{
+  "id": "act-cxii-2011-public-data",
+  "type": "statute",
+  "title": "2011. évi CXII. törvény — Közérdekű adatok megismerése (III. fejezet)",
+  "title_en": "Act CXII of 2011 — Access to Public Interest Data (Chapter III Provisions)",
+  "short_name": "Infotörvény — Public Data",
+  "status": "in_force",
+  "issued_date": "2011-07-26",
+  "in_force_date": "2012-01-01",
+  "url": "https://njt.hu/jogszabaly/2011-112-00-00",
+  "description": "Public data provisions of the Infotörvény (Act CXII of 2011), Chapter III. Governs access to data of public interest (közérdekű adat) and data accessible on public interest grounds (közérdekből nyilvános adat). Implements constitutional transparency principles and aligns with Directive 2003/98/EC on the re-use of public sector information as amended by Directive (EU) 2019/1024 (Open Data Directive).",
+  "provisions": [
+    {
+      "provision_ref": "s26",
+      "section": "26",
+      "title": "§ 26 — Right of Access to Public Data",
+      "content": "Everyone shall have the right to know data of public interest and data accessible on public interest grounds. Bodies performing public duties shall ensure access to data of public interest and data accessible on public interest grounds managed by them. Data of public interest means information or knowledge, irrespective of the manner of its recording, processed by a body performing public duties, or by any other person on the basis of law, which does not qualify as personal data. This right may only be restricted by law for the protection of national security, national defence, or criminal investigation."
+    },
+    {
+      "provision_ref": "s27",
+      "section": "27",
+      "title": "§ 27 — Data Accessible on Public Interest Grounds",
+      "content": "Data accessible on public interest grounds means data that is not data of public interest, but whose accessibility is prescribed by law in the interest of the public. The obligation to make data accessible on public interest grounds may also apply to entities not performing public duties, where prescribed by a specific law. The controller of data accessible on public interest grounds shall comply with the same access procedures as for data of public interest."
+    },
+    {
+      "provision_ref": "s28",
+      "section": "28",
+      "title": "§ 28 — Procedure for Requesting Public Data",
+      "content": "A request for data of public interest may be submitted orally, in writing, or by electronic means. The data controller shall fulfil the request within 15 days of receipt. The data controller may extend this period by a further 15 days in the case of a request requiring disproportionate effort. If the data controller refuses the request, it shall inform the requester of the reasons within 15 days and shall inform the requester of the right to bring an action before the court and the right to turn to the National Authority for Data Protection and Freedom of Information (NAIH)."
+    },
+    {
+      "provision_ref": "s29",
+      "section": "29",
+      "title": "§ 29 — Costs of Providing Public Data",
+      "content": "Access to data of public interest shall be free of charge. Where the fulfilment of a request involves a cost exceeding the normal cost of operations (such as duplication, data carrier, or postal delivery), the data controller may charge the requester a reasonable fee not exceeding the costs actually incurred. The data controller shall inform the requester of the applicable fee before fulfilment and shall provide an opportunity to modify the request. Electronic access to data of public interest shall not be subject to charge."
+    },
+    {
+      "provision_ref": "s30",
+      "section": "30",
+      "title": "§ 30 — Proactive Publication Obligation",
+      "content": "Bodies performing public duties shall publish electronically, in a manner accessible to all, the data of public interest defined by this Act and by the Government decree. The data to be published shall include: (a) organisational and personnel data; (b) activity-related data; (c) data on financial management, including contracts with a value exceeding five million forints; (d) asset management data. Data must be published in a searchable and downloadable format, free of charge, without requiring registration. Publication shall be in accordance with the uniform publication scheme."
+    },
+    {
+      "provision_ref": "s31",
+      "section": "31",
+      "title": "§ 31 — Uniform Publication Scheme",
+      "content": "The Government shall determine, by decree, the uniform publication scheme (egységes közadat megismerési rendszer) specifying the categories and formats of data to be proactively published. The publication scheme shall define the frequency of updating and the technical requirements for electronic publication. Bodies performing public duties shall comply with the publication scheme and shall ensure that published data are accurate and up to date."
+    },
+    {
+      "provision_ref": "s32",
+      "section": "32",
+      "title": "§ 32 — Data of Public Interest Register",
+      "content": "Bodies performing public duties shall maintain a register of the data of public interest they process. The register shall include the categories of data, the legal basis for processing, the purpose of processing, the retention period, and the means of access. The register shall be publicly accessible and shall be sent to NAIH upon request."
+    },
+    {
+      "provision_ref": "s33",
+      "section": "33",
+      "title": "§ 33 — Refusal Grounds",
+      "content": "A request for data of public interest may be refused where: (a) the data qualifies as classified information under the Act on the Protection of Classified Information; (b) disclosure would jeopardise national security or national defence; (c) disclosure would jeopardise an ongoing criminal investigation; (d) the data constitutes a business secret and disclosure is not justified by an overriding public interest; (e) disclosure would infringe intellectual property rights. The burden of proving the ground for refusal shall lie with the data controller."
+    },
+    {
+      "provision_ref": "s34",
+      "section": "34",
+      "title": "§ 34 — Judicial Remedy for Refusal",
+      "content": "Where the data controller refuses to fulfil a request for data of public interest or fails to fulfil the request within the prescribed time limit, the requester may bring an action before the tribunal having jurisdiction at the seat of the data controller. The court shall examine whether the refusal is justified. The burden of proof shall lie with the data controller. If the court finds the refusal unjustified, it shall order the data controller to fulfil the request."
+    },
+    {
+      "provision_ref": "s35",
+      "section": "35",
+      "title": "§ 35 — NAIH Oversight of Public Data Access",
+      "content": "The National Authority for Data Protection and Freedom of Information (NAIH) shall monitor compliance with the provisions on access to data of public interest. NAIH may: (a) conduct inquiries upon complaint or ex officio; (b) request the data controller to fulfil a request for public data; (c) recommend improvements to publication practices; (d) publish annual reports on the state of access to public data. NAIH shall be notified of all court proceedings commenced under this Chapter."
+    },
+    {
+      "provision_ref": "s36",
+      "section": "36",
+      "title": "§ 36 — Re-use of Public Data",
+      "content": "Data of public interest published or made available under this Act may be re-used by any person for commercial or non-commercial purposes, provided that the source is indicated and the data are not altered in a manner that is misleading. Conditions for re-use shall not be discriminatory and shall not unnecessarily restrict competition. This provision aligns with Directive (EU) 2019/1024 on open data and the re-use of public sector information (Open Data Directive)."
+    },
+    {
+      "provision_ref": "s37",
+      "section": "37",
+      "title": "§ 37 — Machine-Readable Formats",
+      "content": "Bodies performing public duties shall, to the extent feasible, make data of public interest available in open, machine-readable and interoperable formats. Where data of public interest is stored in electronic databases, the body shall make the data available in structured formats enabling automated processing, in alignment with the requirements of Directive (EU) 2019/1024 (Open Data Directive)."
+    },
+    {
+      "provision_ref": "s38a",
+      "section": "38/A",
+      "title": "§ 38/A — High-Value Datasets",
+      "content": "Certain categories of data of public interest shall be designated as high-value datasets and shall be made available free of charge, in machine-readable formats, through application programming interfaces (APIs) and as bulk downloads. The categories of high-value datasets shall be determined by Government decree, taking into account the categories established by Directive (EU) 2019/1024 (Open Data Directive) and its implementing acts."
+    },
+    {
+      "provision_ref": "s39",
+      "section": "39",
+      "title": "§ 39 — Whistleblower Protection",
+      "content": "A person who discloses, in good faith, the unlawful refusal or failure to provide data of public interest shall be protected from retaliation. The employer or public body shall not impose any adverse consequences on such person. The provisions of the Act on Whistleblower Protection shall apply mutatis mutandis."
+    },
+    {
+      "provision_ref": "s40",
+      "section": "40",
+      "title": "§ 40 — Liability for Failure to Publish",
+      "content": "The head of a body performing public duties shall be personally responsible for ensuring compliance with the proactive publication obligations under this Chapter. Failure to comply may result in the imposition of a fine by NAIH of up to two million forints. NAIH may also order the immediate publication of the data concerned."
+    },
+    {
+      "provision_ref": "s41",
+      "section": "41",
+      "title": "§ 41 — Annual Transparency Report",
+      "content": "Bodies performing public duties shall prepare an annual transparency report setting out: (a) the number of requests for data of public interest received; (b) the number of requests fulfilled, refused, or partially fulfilled; (c) the average time for fulfilment; (d) the categories of data most frequently requested. The report shall be published on the body's website and shall be sent to NAIH."
+    },
+    {
+      "provision_ref": "s42",
+      "section": "42",
+      "title": "§ 42 — Data Classification Review",
+      "content": "Data classified as restricted on grounds of business secrecy, national security or other grounds shall be reviewed at least every five years. If the ground for restriction no longer applies, the data shall be declassified and made available as data of public interest. NAIH may request the review of classification at any time."
+    },
+    {
+      "provision_ref": "s43",
+      "section": "43",
+      "title": "§ 43 — Applicability to State-Owned Enterprises",
+      "content": "State-owned enterprises, enterprises in which the State holds a majority interest, and enterprises performing public service functions shall be subject to the proactive publication obligations of this Chapter with respect to their use of public funds and the performance of their public functions. The obligations shall extend to data on contracts funded from public sources, remuneration of management, and performance indicators."
+    },
+    {
+      "provision_ref": "s44",
+      "section": "44",
+      "title": "§ 44 — Local Government Transparency",
+      "content": "Local governments shall comply with the proactive publication obligations under this Chapter with respect to their legislative, administrative and financial activities. Local government decrees, decisions, budgets, financial accounts, and contracts shall be published electronically. The local government notary shall ensure compliance and shall designate a responsible person for the maintenance of the electronic publication system."
+    },
+    {
+      "provision_ref": "s45",
+      "section": "45",
+      "title": "§ 45 — Transitional Provisions for Open Data",
+      "content": "Bodies performing public duties shall bring their electronic publication systems into compliance with the machine-readable format requirements within two years of the entry into force of the amending Act transposing Directive (EU) 2019/1024 (Open Data Directive). High-value datasets shall be made available within eighteen months of the entry into force of the relevant implementing regulation."
+    }
+  ],
+  "definitions": [
+    {
+      "term": "data of public interest",
+      "definition": "Information or knowledge processed by a body performing public duties which does not qualify as personal data.",
+      "source_provision": "s26"
+    },
+    {
+      "term": "data accessible on public interest grounds",
+      "definition": "Data that is not data of public interest but whose accessibility is prescribed by law in the interest of the public.",
+      "source_provision": "s27"
+    },
+    {
+      "term": "proactive publication",
+      "definition": "The obligation of bodies performing public duties to publish electronically the data of public interest in a searchable and downloadable format.",
+      "source_provision": "s30"
+    },
+    {
+      "term": "high-value datasets",
+      "definition": "Categories of public interest data designated for free availability in machine-readable formats through APIs and bulk downloads, as defined by Directive (EU) 2019/1024.",
+      "source_provision": "s38a"
+    }
+  ]
+}

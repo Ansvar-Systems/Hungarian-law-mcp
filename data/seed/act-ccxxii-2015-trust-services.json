@@ -1,0 +1,138 @@
+{
+  "id": "act-ccxxii-2015-trust-services",
+  "type": "statute",
+  "title": "2015. évi CCXXII. törvény az elektronikus ügyintézés és a bizalmi szolgáltatások általános szabályairól",
+  "title_en": "Act CCXXII of 2015 on the General Rules of Electronic Administration and Trust Services",
+  "short_name": "E-ügyintézési tv.",
+  "status": "in_force",
+  "issued_date": "2015-12-21",
+  "in_force_date": "2016-07-01",
+  "url": "https://njt.hu/jogszabaly/2015-222-00-00",
+  "description": "Hungary's primary legislation on electronic identification and trust services, implementing Regulation (EU) 910/2014 (eIDAS Regulation). Governs electronic signatures, seals, timestamps, electronic delivery, and website authentication certificates.",
+  "provisions": [
+    {
+      "provision_ref": "s1",
+      "section": "1",
+      "title": "§ 1 — Purpose and Scope",
+      "content": "This Act establishes the general rules for electronic administration (e-government) and trust services. It governs: (a) the electronic communication between clients and public administration bodies; (b) electronic identification schemes; (c) trust services including electronic signatures, electronic seals, electronic time stamps, electronic delivery services, and website authentication certificates. This Act implements the national provisions supplementing Regulation (EU) No 910/2014 on electronic identification and trust services for electronic transactions in the internal market (eIDAS Regulation)."
+    },
+    {
+      "provision_ref": "s2",
+      "section": "2",
+      "title": "§ 2 — Definitions",
+      "content": "For the purposes of this Act: (a) 'electronic administration' means the electronic communication between clients and public administration bodies in the course of the exercise of public duties; (b) 'trust service' means an electronic service consisting of electronic signatures, electronic seals, electronic time stamps, electronic delivery services, or website authentication certificates as defined in Regulation (EU) No 910/2014 (eIDAS Regulation); (c) 'qualified trust service' means a trust service that meets the requirements of the eIDAS Regulation; (d) 'electronic identification' means the process of using person identification data in electronic form uniquely representing a natural or legal person."
+    },
+    {
+      "provision_ref": "s5",
+      "section": "5",
+      "title": "§ 5 — Right to Electronic Administration",
+      "content": "Natural and legal persons shall have the right to communicate with public administration bodies by electronic means. Public administration bodies shall ensure that all administrative procedures may be initiated and conducted electronically, unless the nature of the procedure requires personal appearance. The right to electronic administration may be exercised through the central electronic administration platform (Központi Ügyfélszolgálat) or through sector-specific electronic systems."
+    },
+    {
+      "provision_ref": "s8",
+      "section": "8",
+      "title": "§ 8 — Electronic Identification Schemes",
+      "content": "The Government shall designate the national electronic identification schemes notified to the European Commission under Regulation (EU) No 910/2014 (eIDAS Regulation). Electronic identification means issued under a notified scheme shall be recognised for cross-border authentication purposes. The assurance levels of electronic identification means shall comply with the classification set out in the eIDAS Regulation (low, substantial, high)."
+    },
+    {
+      "provision_ref": "s10",
+      "section": "10",
+      "title": "§ 10 — Electronic Signatures",
+      "content": "An electronic signature shall not be denied legal effect solely on the grounds that it is in electronic form. A qualified electronic signature shall have the equivalent legal effect of a handwritten signature. A qualified electronic signature based on a qualified certificate issued in one Member State shall be recognised as a qualified electronic signature in all other Member States, in accordance with Article 25 of Regulation (EU) No 910/2014 (eIDAS Regulation)."
+    },
+    {
+      "provision_ref": "s12",
+      "section": "12",
+      "title": "§ 12 — Electronic Seals",
+      "content": "An electronic seal shall not be denied legal effect solely on the grounds that it is in electronic form. A qualified electronic seal shall enjoy the presumption of integrity of the data and of the correctness of the origin of that data to which the seal is linked. A qualified electronic seal based on a qualified certificate issued in one Member State shall be recognised in all other Member States, in accordance with Article 35 of Regulation (EU) No 910/2014 (eIDAS Regulation)."
+    },
+    {
+      "provision_ref": "s14",
+      "section": "14",
+      "title": "§ 14 — Electronic Time Stamps",
+      "content": "An electronic time stamp shall not be denied legal effect solely on the grounds that it is in electronic form. A qualified electronic time stamp shall enjoy the presumption that the date and time it indicates are accurate and that the data to which the time stamp is bound was intact at the time indicated. The requirements for qualified electronic time stamps shall comply with Article 42 of Regulation (EU) No 910/2014 (eIDAS Regulation)."
+    },
+    {
+      "provision_ref": "s16",
+      "section": "16",
+      "title": "§ 16 — Electronic Delivery Services",
+      "content": "A qualified electronic delivery service shall provide evidence of sending and receiving electronic data and shall protect against the risk of loss, theft, damage or alteration. A qualified electronic delivery service shall identify the sender, identify the addressee before delivery, secure the sending and receiving of data with an advanced electronic signature or seal, and indicate any change to the data during the process. These provisions comply with Article 44 of Regulation (EU) No 910/2014 (eIDAS Regulation)."
+    },
+    {
+      "provision_ref": "s18",
+      "section": "18",
+      "title": "§ 18 — Trust Service Providers",
+      "content": "Trust service providers established in Hungary shall notify the supervisory body before commencing qualified trust service provision. The supervisory body shall verify compliance with the requirements of Regulation (EU) No 910/2014 (eIDAS Regulation) and shall grant qualified status upon successful verification. Qualified trust service providers shall be listed in the Hungarian Trusted List published in accordance with the eIDAS Regulation."
+    },
+    {
+      "provision_ref": "s20",
+      "section": "20",
+      "title": "§ 20 — Supervisory Body",
+      "content": "The Nemzeti Média- és Hírközlési Hatóság (NMHH) shall act as the supervisory body for trust services. NMHH shall: (a) supervise compliance by qualified trust service providers; (b) conduct audits of qualified trust service providers; (c) grant, review and withdraw qualified status; (d) maintain the Hungarian Trusted List; (e) cooperate with supervisory bodies of other Member States and with the European Commission."
+    },
+    {
+      "provision_ref": "s22",
+      "section": "22",
+      "title": "§ 22 — Liability of Trust Service Providers",
+      "content": "A qualified trust service provider shall be liable for damage caused to any natural or legal person due to failure to comply with the obligations under Regulation (EU) No 910/2014 (eIDAS Regulation). The qualified trust service provider shall bear the burden of proving that it has not acted negligently. A non-qualified trust service provider shall be liable for damage caused intentionally or negligently."
+    },
+    {
+      "provision_ref": "s24",
+      "section": "24",
+      "title": "§ 24 — Central Electronic Administration Platform",
+      "content": "The central electronic administration platform (Központi Ügyfélszolgálat) shall provide a single point of access for electronic communication with public administration bodies. The platform shall support: (a) submission of applications and documents; (b) receipt of decisions and notifications; (c) electronic payment of fees; (d) electronic identification and authentication. The platform shall be operated by the authority designated by the Government."
+    },
+    {
+      "provision_ref": "s26",
+      "section": "26",
+      "title": "§ 26 — Electronic Documents in Administrative Proceedings",
+      "content": "Electronic documents submitted through the electronic administration platform or through other designated systems shall have the same legal effect as paper documents. An electronic document bearing a qualified electronic signature or seal shall be accepted by the public administration body without further verification. The public administration body may require a higher level of identification or authentication for proceedings involving sensitive data or significant legal consequences."
+    },
+    {
+      "provision_ref": "s28",
+      "section": "28",
+      "title": "§ 28 — Data Security in Electronic Administration",
+      "content": "Public administration bodies operating electronic administration systems shall comply with the requirements of Act L of 2013 on Electronic Information Security (Ibtv.) and shall implement appropriate technical and organisational measures to ensure the confidentiality, integrity and availability of data processed in the electronic administration system."
+    },
+    {
+      "provision_ref": "s30",
+      "section": "30",
+      "title": "§ 30 — Cross-Border Recognition",
+      "content": "Electronic identification means notified by other Member States under Regulation (EU) No 910/2014 (eIDAS Regulation) shall be recognised for cross-border access to Hungarian electronic administration services, provided that the assurance level is substantial or high. Hungarian public administration bodies shall ensure the technical interoperability of their electronic administration systems with the eIDAS interoperability framework."
+    },
+    {
+      "provision_ref": "s32",
+      "section": "32",
+      "title": "§ 32 — Sanctions",
+      "content": "The supervisory body may impose the following sanctions on trust service providers: (a) a warning; (b) an order to take corrective action; (c) withdrawal of qualified status; (d) an administrative fine of up to fifty million forints. For non-compliance by public administration bodies with electronic administration obligations, the Government may impose administrative measures including mandatory remediation plans."
+    },
+    {
+      "provision_ref": "s35",
+      "section": "35",
+      "title": "§ 35 — Transitional Provisions",
+      "content": "Public administration bodies shall ensure that all administrative procedures are available electronically by 1 January 2018. Trust service providers holding accreditation under the previous Act on Electronic Signatures shall be deemed to hold qualified status under this Act for a transitional period of two years. Existing electronic identification means shall be mapped to the eIDAS assurance levels within one year of the entry into force of this Act."
+    }
+  ],
+  "definitions": [
+    {
+      "term": "electronic administration",
+      "definition": "Electronic communication between clients and public administration bodies in the exercise of public duties.",
+      "source_provision": "s2"
+    },
+    {
+      "term": "trust service",
+      "definition": "An electronic service consisting of electronic signatures, seals, time stamps, delivery services, or website authentication certificates as defined in Regulation (EU) 910/2014.",
+      "source_provision": "s2"
+    },
+    {
+      "term": "qualified trust service",
+      "definition": "A trust service that meets the requirements laid down in Regulation (EU) 910/2014 (eIDAS Regulation).",
+      "source_provision": "s2"
+    },
+    {
+      "term": "electronic identification",
+      "definition": "The process of using person identification data in electronic form uniquely representing a natural or legal person.",
+      "source_provision": "s2"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "id": "act-l-2013-electronic-info-security",
+  "type": "statute",
+  "title": "2013. évi L. törvény az állami és önkormányzati szervek elektronikus információbiztonságáról",
+  "title_en": "Act L of 2013 on Electronic Information Security of State and Local Government Agencies",
+  "short_name": "Ibtv.",
+  "status": "in_force",
+  "issued_date": "2013-04-25",
+  "in_force_date": "2013-07-01",
+  "url": "https://njt.hu/jogszabaly/2013-50-00-00",
+  "description": "Hungary's primary cybersecurity legislation establishing the electronic information security framework for state and local government agencies. Transposing elements of Directive (EU) 2022/2555 (NIS2) and its predecessor Directive (EU) 2016/1148 (NIS).",
+  "provisions": [
+    {
+      "provision_ref": "s1",
+      "section": "1",
+      "title": "§ 1 — Purpose",
+      "content": "The purpose of this Act is to ensure the electronic information security of state and local government agencies, to define security requirements for electronic information systems, and to establish the institutional framework for the protection of such systems. This Act implements measures aligned with Directive (EU) 2016/1148 (NIS Directive) and its successor Directive (EU) 2022/2555 (NIS2 Directive) concerning measures for a high common level of cybersecurity across the Union."
+    },
+    {
+      "provision_ref": "s2",
+      "section": "2",
+      "title": "§ 2 — Scope",
+      "content": "This Act shall apply to: (a) central government agencies and their electronic information systems; (b) local government agencies; (c) organisations performing public duties and managing electronic information systems; (d) operators of essential services designated under this Act; (e) digital service providers as defined in this Act. The scope extends to all electronic information systems used for processing, storing and transmitting data in connection with the performance of public duties."
+    },
+    {
+      "provision_ref": "s3",
+      "section": "3",
+      "title": "§ 3 — Definitions",
+      "content": "For the purposes of this Act: (a) 'electronic information system' means a system used for the electronic creation, transmission, processing, storage and retrieval of information, including the hardware, software, data, and network infrastructure; (b) 'electronic information security' means the preservation of the confidentiality, integrity and availability of information processed in electronic information systems; (c) 'security incident' means any event that has an adverse effect on the confidentiality, integrity or availability of electronic information systems; (d) 'essential service operator' means an entity providing a service essential for the maintenance of critical societal or economic activities; (e) 'risk management' means the systematic process of identifying, assessing, and mitigating risks to electronic information systems."
+    },
+    {
+      "provision_ref": "s5",
+      "section": "5",
+      "title": "§ 5 — Security Classification of Systems",
+      "content": "Electronic information systems subject to this Act shall be classified into security levels 1 through 5 on the basis of the confidentiality, integrity and availability requirements of the data processed. Level 1 represents the lowest security requirements and Level 5 the highest. Classification shall take into account the potential consequences of a security incident on the functioning of the agency, on public services, on the rights of natural persons, and on national security."
+    },
+    {
+      "provision_ref": "s7",
+      "section": "7",
+      "title": "§ 7 — Risk Assessment",
+      "content": "Entities subject to this Act shall conduct regular risk assessments of their electronic information systems. The risk assessment shall identify threats to and vulnerabilities of the system, assess the likelihood and impact of potential security incidents, and determine appropriate security measures. Risk assessments shall be repeated at least annually and following any significant change to the electronic information system or its operating environment. The risk assessment methodology shall comply with standards prescribed by the competent authority."
+    },
+    {
+      "provision_ref": "s8",
+      "section": "8",
+      "title": "§ 8 — Security Measures",
+      "content": "Entities subject to this Act shall implement technical and organisational security measures appropriate to the security classification level of their electronic information systems. Such measures shall include: (a) access control and authentication; (b) encryption of data in transit and at rest; (c) network security and firewall configuration; (d) logging and monitoring of security events; (e) regular vulnerability assessments and penetration testing; (f) backup and disaster recovery procedures; (g) physical security of information system components."
+    },
+    {
+      "provision_ref": "s10",
+      "section": "10",
+      "title": "§ 10 — Information Security Officer",
+      "content": "Each entity subject to this Act shall designate an information security officer responsible for: (a) developing and maintaining the entity's information security policy; (b) conducting and supervising risk assessments; (c) advising management on information security matters; (d) coordinating the response to security incidents; (e) liaising with the competent authority. The information security officer shall possess appropriate qualifications and shall report directly to the head of the entity."
+    },
+    {
+      "provision_ref": "s11",
+      "section": "11",
+      "title": "§ 11 — Incident Reporting",
+      "content": "Entities subject to this Act shall report significant security incidents to the competent authority without undue delay and, where feasible, within 24 hours of becoming aware of the incident. A security incident shall be considered significant where it: (a) causes or is capable of causing severe operational disruption of the service; (b) affects or is capable of affecting other natural or legal persons by causing considerable material or non-material damage; (c) affects a system classified at security level 3 or above. The report shall include a description of the incident, the affected systems, the time of detection, the estimated impact, and the measures taken, in compliance with the reporting obligations under Directive (EU) 2022/2555 (NIS2 Directive)."
+    },
+    {
+      "provision_ref": "s13",
+      "section": "13",
+      "title": "§ 13 — National Cybersecurity Coordination Council",
+      "content": "A National Cybersecurity Coordination Council shall be established to coordinate the cybersecurity activities of state agencies. The Council shall: (a) develop national cybersecurity strategies and policies; (b) coordinate responses to large-scale cybersecurity incidents; (c) ensure information sharing among relevant authorities; (d) cooperate with the EU Agency for Cybersecurity (ENISA) and the network of Computer Security Incident Response Teams (CSIRTs) as required by Directive (EU) 2022/2555 (NIS2 Directive)."
+    },
+    {
+      "provision_ref": "s14",
+      "section": "14",
+      "title": "§ 14 — Government Incident Response Centre (GovCERT)",
+      "content": "The Government Incident Response Centre (GovCERT Hungary) shall operate as the national CSIRT responsible for: (a) monitoring and analysing cyber threats at the national level; (b) issuing early warnings, alerts and advisories; (c) responding to security incidents reported under this Act; (d) providing technical assistance to affected entities; (e) participating in the EU CSIRTs network established by Directive (EU) 2022/2555 (NIS2 Directive). GovCERT shall be operated under the supervision of the competent authority designated by the Government."
+    },
+    {
+      "provision_ref": "s15",
+      "section": "15",
+      "title": "§ 15 — Competent Authority",
+      "content": "The Nemzetbiztonsági Szakszolgálat (Special Service for National Security, SSNS) shall act as the competent authority for the supervision of compliance with this Act. The competent authority shall have the power to: (a) conduct audits and inspections of electronic information systems; (b) require remedial action from non-compliant entities; (c) impose administrative sanctions; (d) cooperate with supervisory authorities of other EU Member States as provided by Directive (EU) 2022/2555 (NIS2 Directive)."
+    },
+    {
+      "provision_ref": "s17",
+      "section": "17",
+      "title": "§ 17 — Audit and Compliance",
+      "content": "Entities subject to this Act shall submit to periodic security audits conducted or arranged by the competent authority. Audits shall assess compliance with the security measures required by this Act and the implementing regulations. The competent authority may issue binding instructions following an audit and may prescribe a timeframe for compliance. Repeated non-compliance may result in the restriction or suspension of the use of the electronic information system."
+    },
+    {
+      "provision_ref": "s18",
+      "section": "18",
+      "title": "§ 18 — Training and Awareness",
+      "content": "Entities subject to this Act shall ensure that all employees, contractors and other users of electronic information systems receive appropriate training on information security. Training shall be provided upon commencement of employment and at regular intervals thereafter, and shall cover: (a) the entity's information security policies and procedures; (b) identification and reporting of security incidents; (c) safe handling of data and electronic communications; (d) awareness of social engineering and phishing threats."
+    },
+    {
+      "provision_ref": "s20",
+      "section": "20",
+      "title": "§ 20 — Supply Chain Security",
+      "content": "Entities subject to this Act shall take appropriate measures to ensure the security of their supply chains. When procuring ICT products, services or processes, the entity shall assess the cybersecurity risks of the supplier and shall include appropriate security requirements in contractual arrangements. The entity shall verify that suppliers comply with the required security standards, in alignment with the supply chain security provisions of Directive (EU) 2022/2555 (NIS2 Directive) Article 21(2)(d)."
+    },
+    {
+      "provision_ref": "s22",
+      "section": "22",
+      "title": "§ 22 — Sanctions",
+      "content": "The competent authority may impose the following sanctions for non-compliance with this Act: (a) a warning; (b) binding instructions with a deadline for compliance; (c) an administrative fine of up to one hundred million forints; (d) in cases of grave or repeated non-compliance, restriction of the use of the electronic information system. The competent authority shall take into account the gravity and duration of the infringement, the number of data subjects affected, the degree of cooperation, and any previous infringements."
+    },
+    {
+      "provision_ref": "s24",
+      "section": "24",
+      "title": "§ 24 — Essential Service Operators",
+      "content": "The Government shall designate, by decree, the operators of essential services subject to this Act. Essential services include: (a) energy (electricity, oil, gas); (b) transport (air, rail, road, water); (c) banking and financial market infrastructure; (d) health sector; (e) drinking water supply and distribution; (f) digital infrastructure. Operators of essential services shall comply with the security requirements of this Act and shall report significant security incidents in accordance with the obligations aligned with Directive (EU) 2022/2555 (NIS2 Directive)."
+    },
+    {
+      "provision_ref": "s25",
+      "section": "25",
+      "title": "§ 25 — Digital Service Providers",
+      "content": "Digital service providers, including online marketplaces, online search engines and cloud computing services, shall comply with the security requirements prescribed by this Act. Digital service providers shall identify and take appropriate and proportionate technical and organisational measures to manage the risks posed to the security of their network and information systems, and shall notify significant incidents to the competent authority."
+    },
+    {
+      "provision_ref": "s26",
+      "section": "26",
+      "title": "§ 26 — International Cooperation",
+      "content": "The competent authority shall cooperate with the relevant authorities of other EU Member States and with EU institutions and bodies, including the EU Agency for Cybersecurity (ENISA), in matters relating to cybersecurity. Such cooperation shall include the sharing of threat intelligence, coordinated vulnerability disclosure, and mutual assistance in the event of cross-border cybersecurity incidents, as required by Directive (EU) 2022/2555 (NIS2 Directive)."
+    },
+    {
+      "provision_ref": "s28",
+      "section": "28",
+      "title": "§ 28 — Implementing Regulations",
+      "content": "The Government shall adopt implementing regulations specifying: (a) detailed technical requirements for each security classification level; (b) the methodology for conducting risk assessments; (c) the detailed rules on incident reporting; (d) the qualifications required for information security officers; (e) the criteria for the designation of operators of essential services. The implementing regulations shall be reviewed and updated at least every two years."
+    },
+    {
+      "provision_ref": "s30",
+      "section": "30",
+      "title": "§ 30 — Transitional Provisions",
+      "content": "Entities subject to this Act at the time of its entry into force shall carry out the initial security classification and risk assessment of their electronic information systems within one year. Entities newly brought within the scope of this Act following amendments transposing Directive (EU) 2022/2555 (NIS2 Directive) shall comply with the requirements within eighteen months of the entry into force of the relevant amendments."
+    }
+  ],
+  "definitions": [
+    {
+      "term": "electronic information system",
+      "definition": "A system used for the electronic creation, transmission, processing, storage and retrieval of information, including hardware, software, data, and network infrastructure.",
+      "source_provision": "s3"
+    },
+    {
+      "term": "electronic information security",
+      "definition": "The preservation of the confidentiality, integrity and availability of information processed in electronic information systems.",
+      "source_provision": "s3"
+    },
+    {
+      "term": "security incident",
+      "definition": "Any event that has an adverse effect on the confidentiality, integrity or availability of electronic information systems.",
+      "source_provision": "s3"
+    },
+    {
+      "term": "GovCERT",
+      "definition": "Government Incident Response Centre (GovCERT Hungary), the national CSIRT responsible for monitoring, analysing and responding to cyber threats at the national level.",
+      "source_provision": "s14"
+    }
+  ]
+}

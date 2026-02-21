@@ -1,0 +1,139 @@
+{
+  "id": "act-cviii-2001-electronic-commerce",
+  "type": "statute",
+  "title": "2001. évi CVIII. törvény az elektronikus kereskedelmi szolgáltatások, valamint az információs társadalommal összefüggő szolgáltatások egyes kérdéseiről",
+  "title_en": "Act CVIII of 2001 on Electronic Commerce and Certain Aspects of Information Society Services",
+  "short_name": "Ekertv.",
+  "status": "in_force",
+  "issued_date": "2001-12-21",
+  "in_force_date": "2002-01-16",
+  "url": "https://njt.hu/jogszabaly/2001-108-00-00",
+  "description": "Hungary's primary electronic commerce legislation implementing Directive 2000/31/EC (E-Commerce Directive). Governs information society services, intermediary service provider liability, electronic contracts, and commercial communications.",
+  "provisions": [
+    {
+      "provision_ref": "s1",
+      "section": "1",
+      "title": "§ 1 — Scope",
+      "content": "This Act shall apply to information society services provided for remuneration, at a distance, by electronic means and at the individual request of a recipient of a service. This Act implements Directive 2000/31/EC of the European Parliament and of the Council on certain legal aspects of information society services, in particular electronic commerce, in the Internal Market (E-Commerce Directive)."
+    },
+    {
+      "provision_ref": "s2",
+      "section": "2",
+      "title": "§ 2 — Definitions",
+      "content": "For the purposes of this Act: (a) 'information society service' means any service normally provided for remuneration, at a distance, by electronic means and at the individual request of a recipient; (b) 'service provider' means any natural or legal person providing an information society service; (c) 'recipient of a service' means any natural or legal person who uses an information society service; (d) 'commercial communication' means any form of communication designed to promote, directly or indirectly, the goods, services or image of a company, organisation or person pursuing a commercial, industrial or craft activity."
+    },
+    {
+      "provision_ref": "s3",
+      "section": "3",
+      "title": "§ 3 — Freedom to Provide Services",
+      "content": "Information society services may be provided freely without prior authorisation. The provision of information society services may not be made subject to authorisation or any other requirement having equivalent effect. This provision shall not affect authorisation schemes which are not specifically and exclusively targeted at information society services."
+    },
+    {
+      "provision_ref": "s4",
+      "section": "4",
+      "title": "§ 4 — Information to be Provided",
+      "content": "A service provider shall render easily, directly and permanently accessible to the recipients of the service and to the competent authorities at least the following information: (a) the name of the service provider; (b) the geographic address; (c) electronic contact details; (d) the trade register number; (e) the VAT identification number; (f) where the activity is subject to authorisation, the details of the supervisory authority. The information must be provided in a clear and unambiguous manner."
+    },
+    {
+      "provision_ref": "s5",
+      "section": "5",
+      "title": "§ 5 — Commercial Communications",
+      "content": "Commercial communications which form part of an information society service shall be clearly identifiable as such. The natural or legal person on whose behalf the commercial communication is made shall be clearly identifiable. Promotional offers such as discounts and gifts shall be clearly identifiable as such. Unsolicited commercial communications by electronic mail shall be clearly and unambiguously identifiable as such upon receipt."
+    },
+    {
+      "provision_ref": "s6",
+      "section": "6",
+      "title": "§ 6 — Electronic Contracts",
+      "content": "A contract may be validly concluded by electronic means. Before the placement of an order, the service provider shall provide the recipient with clear information on: (a) the technical steps to follow to conclude the contract; (b) whether the contract will be filed and accessible; (c) the technical means for identifying and correcting input errors; (d) the languages offered for the conclusion of the contract. The provider shall acknowledge receipt of the order without undue delay by electronic means."
+    },
+    {
+      "provision_ref": "s7",
+      "section": "7",
+      "title": "§ 7 — Mere Conduit",
+      "content": "Where an information society service is provided that consists of the transmission in a communication network of information provided by a recipient of the service, or the provision of access to a communication network, the service provider shall not be liable for the information transmitted, on condition that the provider: (a) does not initiate the transmission; (b) does not select the receiver of the transmission; (c) does not select or modify the information contained in the transmission. This provision implements Article 12 of Directive 2000/31/EC (E-Commerce Directive)."
+    },
+    {
+      "provision_ref": "s8",
+      "section": "8",
+      "title": "§ 8 — Caching",
+      "content": "Where an information society service is provided that consists of the transmission in a communication network of information provided by a recipient of the service, the service provider shall not be liable for the automatic, intermediate and temporary storage of that information, performed for the sole purpose of making more efficient the information's onward transmission, on condition that the provider does not modify the information, complies with conditions on access to the information, and acts expeditiously to remove or disable access upon actual knowledge that the information has been removed from the source."
+    },
+    {
+      "provision_ref": "s9",
+      "section": "9",
+      "title": "§ 9 — Hosting",
+      "content": "Where an information society service consists of the storage of information provided by a recipient of the service, the service provider shall not be liable for the information stored at the request of a recipient, on condition that: (a) the provider does not have actual knowledge of illegal activity or information and is not aware of facts or circumstances from which the illegal activity or information is apparent; (b) the provider, upon obtaining such knowledge or awareness, acts expeditiously to remove or to disable access to the information. This provision implements Article 14 of Directive 2000/31/EC (E-Commerce Directive)."
+    },
+    {
+      "provision_ref": "s10",
+      "section": "10",
+      "title": "§ 10 — No General Obligation to Monitor",
+      "content": "Service providers in the categories described in Sections 7 to 9 shall not be subject to a general obligation to monitor the information which they transmit or store, nor to a general obligation actively to seek facts or circumstances indicating illegal activity. This shall not affect the right of the competent authorities to require the service provider to terminate or prevent an infringement in accordance with applicable law."
+    },
+    {
+      "provision_ref": "s11",
+      "section": "11",
+      "title": "§ 11 — Notice and Takedown",
+      "content": "Where a service provider receives notice that information stored at the request of a recipient is illegal or infringes the rights of a third party, the provider shall without undue delay remove or disable access to the information. A notice shall be in writing and shall contain: (a) identification of the notifier; (b) identification of the content alleged to be illegal; (c) the reasons why the content is alleged to be illegal. A service provider acting in good faith upon receipt of notice shall not be liable for damage caused by the removal of information."
+    },
+    {
+      "provision_ref": "s13",
+      "section": "13",
+      "title": "§ 13 — Unsolicited Commercial Communications",
+      "content": "Unsolicited commercial communications by electronic mail may only be sent to a recipient who has given prior consent (opt-in). The sender of commercial communications shall provide the recipient with a clear and simple means of refusing the use of the contact details for future commercial communications. This provision shall not apply to communications sent to business addresses where the business relationship justifies such communications."
+    },
+    {
+      "provision_ref": "s14",
+      "section": "14",
+      "title": "§ 14 — Codes of Conduct",
+      "content": "Professional associations and consumer organisations may draw up codes of conduct at the national or European level to contribute to the proper implementation of this Act. Such codes may include provisions on the quality of information society services, the handling of complaints, and out-of-court dispute resolution. NMHH shall encourage the drawing up of codes of conduct and shall make available any codes of conduct submitted to it."
+    },
+    {
+      "provision_ref": "s15",
+      "section": "15",
+      "title": "§ 15 — Out-of-Court Dispute Resolution",
+      "content": "Service providers and recipients of services shall have access to effective out-of-court dispute resolution mechanisms. Such mechanisms shall be available electronically and shall be capable of handling disputes in a timely and cost-effective manner. The courts shall remain accessible for the resolution of disputes that cannot be resolved through out-of-court mechanisms."
+    },
+    {
+      "provision_ref": "s16",
+      "section": "16",
+      "title": "§ 16 — Enforcement and Sanctions",
+      "content": "The competent authority may impose the following sanctions on service providers that fail to comply with this Act: (a) a warning; (b) an administrative fine of up to ten million forints; (c) an order to cease the infringement; (d) in cases of repeated or grave infringement, an order to suspend the service. Consumer protection provisions of this Act shall be enforced by the consumer protection authority."
+    },
+    {
+      "provision_ref": "s17",
+      "section": "17",
+      "title": "§ 17 — Cooperation Between Authorities",
+      "content": "The Hungarian authorities responsible for the supervision of information society services shall cooperate with the competent authorities of other EU Member States. Such cooperation shall include the exchange of information, mutual assistance in enforcement, and joint actions against cross-border infringements, as provided by Directive 2000/31/EC (E-Commerce Directive) and Regulation (EU) 2017/2394 on consumer protection cooperation."
+    },
+    {
+      "provision_ref": "s18",
+      "section": "18",
+      "title": "§ 18 — Country-of-Origin Principle",
+      "content": "Information society services provided by a service provider established in Hungary shall comply with Hungarian law. Hungarian authorities shall not restrict the freedom to provide information society services from another Member State on grounds falling within the coordinated field, except in cases provided for by Directive 2000/31/EC (E-Commerce Directive), including measures necessary for public policy, protection of public health, public security, or consumer protection."
+    },
+    {
+      "provision_ref": "s20",
+      "section": "20",
+      "title": "§ 20 — Transitional and Final Provisions",
+      "content": "This Act shall enter into force on 16 January 2002. Existing service providers shall bring their activities into compliance with this Act within three months of entry into force. Contracts for information society services concluded before entry into force shall remain valid but shall be supplemented to comply with the information requirements of this Act upon renewal."
+    }
+  ],
+  "definitions": [
+    {
+      "term": "information society service",
+      "definition": "Any service normally provided for remuneration, at a distance, by electronic means and at the individual request of a recipient.",
+      "source_provision": "s2"
+    },
+    {
+      "term": "commercial communication",
+      "definition": "Any form of communication designed to promote the goods, services or image of a company, organisation or person pursuing a commercial, industrial or craft activity.",
+      "source_provision": "s2"
+    },
+    {
+      "term": "service provider",
+      "definition": "Any natural or legal person providing an information society service.",
+      "source_provision": "s2"
+    }
+  ]
+}
