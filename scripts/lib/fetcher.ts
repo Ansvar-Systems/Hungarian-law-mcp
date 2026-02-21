@@ -34,7 +34,19 @@ async function requestWithRetry(
   maxRetries: number
 ): Promise<FetchResult> {
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    const response = await fetch(url, init);
+    let response: Response;
+    try {
+      response = await fetch(url, init);
+    } catch (error) {
+      if (attempt < maxRetries) {
+        const backoff = Math.pow(2, attempt + 1) * 1000;
+        const message = error instanceof Error ? error.message : String(error);
+        console.log(`  Network error for ${url}: ${message}. Retrying in ${backoff}ms...`);
+        await new Promise(resolve => setTimeout(resolve, backoff));
+        continue;
+      }
+      throw error;
+    }
 
     if ((response.status === 429 || response.status >= 500) && attempt < maxRetries) {
       const backoff = Math.pow(2, attempt + 1) * 1000;
