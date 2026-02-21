@@ -29,7 +29,7 @@ const SEED_DIR = path.resolve(__dirname, '../data/seed');
 const BLOCK_ENDPOINT = 'https://njt.hu/ajax/njtGetBlock.json';
 const SEARCH_URL_ENDPOINT = 'https://njt.hu/ajax/get_search_url.json';
 
-type IngestStatus = 'OK' | 'cached' | `HTTP ${number}` | 'NO_SECTION_CONTENT' | `ERROR: ${string}`;
+type IngestStatus = 'OK' | 'cached' | 'METADATA_ONLY' | `HTTP ${number}` | 'NO_SECTION_CONTENT' | `ERROR: ${string}`;
 
 interface CliArgs {
   limit: number | null;
@@ -69,6 +69,25 @@ interface IngestionRow {
   provisions: number;
   definitions: number;
   status: IngestStatus;
+}
+
+function toMetadataOnlyAct(act: ActIndexEntry): ParsedAct {
+  return {
+    id: act.id,
+    type: 'statute',
+    title: act.title,
+    title_en: act.titleEn,
+    short_name: act.shortName,
+    status: act.status,
+    issued_date: act.issuedDate,
+    in_force_date: act.inForceDate,
+    url: act.url,
+    description:
+      act.description ??
+      'Metadata-only entry: section-level text could not be extracted from public njt.hu HTML for this statute.',
+    provisions: [],
+    definitions: [],
+  };
 }
 
 function parseArgs(): CliArgs {
@@ -436,7 +455,7 @@ function loadExistingSeedCounts(seedFile: string): { provisions: number; definit
   };
 }
 
-async function hydrateDeferredBlocks(html: string, act: ActIndexEntry): Promise<string> {
+async function hydrateDeferredBlocks(html: string, act: ActIndexEntry, logHydration: boolean): Promise<string> {
   const starts = extractDeferredBlockStarts(html);
   if (starts.length === 0) return html;
 
@@ -468,7 +487,7 @@ async function hydrateDeferredBlocks(html: string, act: ActIndexEntry): Promise<
     appended += `\n${response.body}`;
   }
 
-  if (blockRanges.length > 0) {
+  if (logHydration && blockRanges.length > 0) {
     console.log(`    -> hydrated ${blockRanges.length} deferred block ranges`);
   }
 
@@ -492,8 +511,10 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
   let failed = 0;
   let totalProvisions = 0;
   let totalDefinitions = 0;
+  let success = 0;
 
   const results: IngestionRow[] = [];
+  const verbosePerAct = acts.length <= 20;
 
   for (const act of acts) {
     const sourceFile = path.join(SOURCE_DIR, `${parseSourceCacheKey(act)}.html`);
@@ -514,13 +535,21 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
 
       if (skipFetch && fs.existsSync(sourceFile)) {
         html = fs.readFileSync(sourceFile, 'utf-8');
-        console.log(`  Using cached HTML for ${act.shortName ?? act.id}`);
+        if (verbosePerAct) {
+          console.log(`  Using cached HTML for ${act.shortName ?? act.id}`);
+        }
       } else {
-        process.stdout.write(`  Fetching ${act.shortName ?? act.id} (${act.url})...`);
+        if (verbosePerAct) {
+          process.stdout.write(`  Fetching ${act.shortName ?? act.id} (${act.url})...`);
+        }
         const result = await fetchWithRateLimit(act.url);
 
         if (result.status !== 200) {
-          console.log(` HTTP ${result.status}`);
+          if (verbosePerAct) {
+            console.log(` HTTP ${result.status}`);
+          } else {
+            console.log(`  [${processed + 1}/${acts.length}] ${act.shortName ?? act.id} -> HTTP ${result.status}`);
+          }
           results.push({
             act: act.shortName ?? act.id,
             provisions: 0,
@@ -535,28 +564,37 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
         html = result.body;
 
         if (!html.includes('jogszabalyMainTitle') || !html.includes('szakasz-jel')) {
-          console.log(' NO_SECTION_CONTENT');
+          const metadataOnly = toMetadataOnlyAct(act);
+          fs.writeFileSync(seedFile, `${JSON.stringify(metadataOnly, null, 2)}\n`);
+
+          if (verbosePerAct) {
+            console.log(' NO_SECTION_CONTENT -> METADATA_ONLY');
+          } else {
+            console.log(`  [${processed + 1}/${acts.length}] ${act.shortName ?? act.id} -> METADATA_ONLY (NO_SECTION_CONTENT)`);
+          }
           results.push({
             act: act.shortName ?? act.id,
             provisions: 0,
             definitions: 0,
-            status: 'NO_SECTION_CONTENT',
+            status: 'METADATA_ONLY',
           });
-          failed++;
           processed++;
           continue;
         }
 
         fs.writeFileSync(sourceFile, html);
-        console.log(` OK (${(html.length / 1024).toFixed(0)} KB)`);
+        if (verbosePerAct) {
+          console.log(` OK (${(html.length / 1024).toFixed(0)} KB)`);
+        }
       }
 
-      const hydratedHtml = await hydrateDeferredBlocks(html, act);
+      const hydratedHtml = await hydrateDeferredBlocks(html, act, verbosePerAct);
       const parsed = parseHungarianHtml(hydratedHtml, act);
       fs.writeFileSync(seedFile, `${JSON.stringify(parsed, null, 2)}\n`);
 
       totalProvisions += parsed.provisions.length;
       totalDefinitions += parsed.definitions.length;
+      success++;
 
       results.push({
         act: act.shortName ?? act.id,
@@ -565,13 +603,23 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
         status: 'OK',
       });
 
-      const shouldLog = acts.length <= 100 || processed % 25 === 0;
+      const shouldLog = verbosePerAct || (processed + 1) % 25 === 0;
       if (shouldLog) {
-        console.log(`    -> ${parsed.provisions.length} provisions, ${parsed.definitions.length} definitions extracted`);
+        if (verbosePerAct) {
+          console.log(`    -> ${parsed.provisions.length} provisions, ${parsed.definitions.length} definitions extracted`);
+        } else {
+          console.log(
+            `  [${processed + 1}/${acts.length}] ok=${success} failed=${failed} cached=${cached} provisions=${totalProvisions} defs=${totalDefinitions}`
+          );
+        }
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      console.log(`  ERROR ${act.shortName ?? act.id}: ${message}`);
+      if (verbosePerAct) {
+        console.log(`  ERROR ${act.shortName ?? act.id}: ${message}`);
+      } else {
+        console.log(`  [${processed + 1}/${acts.length}] ${act.shortName ?? act.id} -> ERROR: ${message.substring(0, 120)}`);
+      }
       results.push({
         act: act.shortName ?? act.id,
         provisions: 0,
@@ -594,14 +642,33 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean, resu
   console.log(`  Failed:       ${failed}`);
   console.log(`  Provisions:   ${totalProvisions}`);
   console.log(`  Definitions:  ${totalDefinitions}`);
-  console.log('\n  Per-Act breakdown:');
-  console.log(`  ${'Act'.padEnd(32)} ${'Provisions'.padStart(12)} ${'Definitions'.padStart(13)} ${'Status'.padStart(16)}`);
-  console.log(`  ${'-'.repeat(32)} ${'-'.repeat(12)} ${'-'.repeat(13)} ${'-'.repeat(16)}`);
 
-  for (const result of results) {
-    console.log(
-      `  ${result.act.padEnd(32)} ${String(result.provisions).padStart(12)} ${String(result.definitions).padStart(13)} ${result.status.padStart(16)}`
-    );
+  if (results.length <= 20) {
+    console.log('\n  Per-Act breakdown:');
+    console.log(`  ${'Act'.padEnd(32)} ${'Provisions'.padStart(12)} ${'Definitions'.padStart(13)} ${'Status'.padStart(16)}`);
+    console.log(`  ${'-'.repeat(32)} ${'-'.repeat(12)} ${'-'.repeat(13)} ${'-'.repeat(16)}`);
+
+    for (const result of results) {
+      console.log(
+        `  ${result.act.padEnd(32)} ${String(result.provisions).padStart(12)} ${String(result.definitions).padStart(13)} ${result.status.padStart(16)}`
+      );
+    }
+  } else {
+    const metadataOnlyRows = results.filter(r => r.status === 'METADATA_ONLY');
+    const errorRows = results.filter(r => r.status !== 'OK' && r.status !== 'cached' && r.status !== 'METADATA_ONLY');
+    console.log(`  Window summary: ${success} OK, ${cached} cached, ${metadataOnlyRows.length} metadata-only, ${failed} failed/skipped`);
+    if (metadataOnlyRows.length > 0) {
+      console.log(`  Metadata-only entries in this window: ${metadataOnlyRows.length}`);
+    }
+    if (errorRows.length > 0) {
+      console.log('  Non-OK entries in this window:');
+      for (const row of errorRows.slice(0, 10)) {
+        console.log(`    - ${row.act}: ${row.status}`);
+      }
+      if (errorRows.length > 10) {
+        console.log(`    ... and ${errorRows.length - 10} more`);
+      }
+    }
   }
   console.log('');
 }
