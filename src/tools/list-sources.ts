@@ -45,7 +45,7 @@ export async function listSources(
       sources: [
         {
           name: 'Nemzeti Jogszabálytár (National Legislation Database)',
-          authority: 'Hungarian Government, Office of Parliamentary Counsel',
+          authority: 'Magyar Közlöny (Hungarian Official Gazette)',
           url: 'https://www.njt.hu',
           license: 'Creative Commons Attribution 4.0 International (CC BY 4.0)',
           coverage:
