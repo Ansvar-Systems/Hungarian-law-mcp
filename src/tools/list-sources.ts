@@ -46,13 +46,13 @@ export async function listSources(
         {
           name: 'Nemzeti Jogszabálytár (National Legislation Database)',
           authority: 'Magyar Közlöny (Hungarian Official Gazette)',
-          url: 'https://www.njt.hu',
-          license: 'Creative Commons Attribution 4.0 International (CC BY 4.0)',
+          url: 'https://njt.hu',
+          license: 'Official legal text publication (see portal terms at njt.hu)',
           coverage:
-            'All Commonwealth (federal) Acts and legislative instruments, ' +
-            'including privacy, cybersecurity, critical infrastructure, ' +
-            'corporations, consumer, telecommunications, and criminal law',
-          languages: ['en'],
+            'Curated set of key Hungarian statutes covering data protection, cybersecurity, ' +
+            'electronic commerce, telecommunications, public procurement, trade secrets, ' +
+            'trust services, and criminal cybercrime provisions',
+          languages: ['hu', 'en'],
         },
       ],
       database: {

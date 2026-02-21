@@ -10,14 +10,15 @@ sources:
     update_frequency: "weekly"
     last_ingested: "2026-02-21"
     license_or_terms:
-      type: "Hungarian Government Open Data (public domain under Hungarian Copyright Act § 1)"
+      type: "Official Hungarian legal text publication (see portal terms)"
       url: "https://njt.hu"
-      summary: "Official legislative texts are public domain"
+      summary: "Legislative texts are sourced from the official national legislation portal."
     coverage:
       scope: "Key Hungarian legislation covering data protection, cybersecurity, e-commerce, criminal law cyber provisions, and related statutes"
-      limitations: "AI-generated seed data; full official ingestion pending"
+      limitations: "Curated corpus of 10 key statutes; not an exhaustive codification of all Hungarian law."
     languages:
       - "hu"
+      - "en"
 
 data_freshness:
   automated_checks: true

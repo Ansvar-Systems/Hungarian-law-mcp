@@ -19,39 +19,39 @@ describe('searchLegislation', () => {
   });
 
   it('should find provisions about personal data', async () => {
-    const result = await searchLegislation(db, { query: 'personal data' });
+    const result = await searchLegislation(db, { query: 'személyes adat' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
     const allSnippets = result.results.map(r => r.snippet.toLowerCase()).join(' ');
-    expect(allSnippets).toContain('personal data');
+    expect(allSnippets).toContain('adat');
   });
 
   it('should find provisions about cybersecurity', async () => {
-    const result = await searchLegislation(db, { query: 'cybersecurity' });
+    const result = await searchLegislation(db, { query: 'kiberbiztonsági' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should find provisions about critical infrastructure', async () => {
-    const result = await searchLegislation(db, { query: 'critical infrastructure' });
+    const result = await searchLegislation(db, { query: 'létfontosságú' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should find provisions about trade secret', async () => {
-    const result = await searchLegislation(db, { query: 'trade secret' });
+    const result = await searchLegislation(db, { query: 'üzleti titok' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should find provisions about electronic signature', async () => {
-    const result = await searchLegislation(db, { query: 'electronic signature' });
+    const result = await searchLegislation(db, { query: 'elektronikus aláírás' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should find provisions about GDPR', async () => {
-    const result = await searchLegislation(db, { query: 'GDPR' });
+    const result = await searchLegislation(db, { query: 'általános adatvédelmi rendelet' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should find provisions about information system fraud', async () => {
-    const result = await searchLegislation(db, { query: 'information system fraud' });
+    const result = await searchLegislation(db, { query: 'információs rendszer' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -66,12 +66,12 @@ describe('searchLegislation', () => {
   });
 
   it('should respect limit parameter', async () => {
-    const result = await searchLegislation(db, { query: 'security', limit: 3 });
+    const result = await searchLegislation(db, { query: 'biztonsági', limit: 3 });
     expect(result.results.length).toBeLessThanOrEqual(3);
   });
 
   it('should filter by document_id', async () => {
-    const result = await searchLegislation(db, { query: 'security', document_id: 'act-l-2013-electronic-info-security' });
+    const result = await searchLegislation(db, { query: 'biztonsági', document_id: 'act-l-2013-electronic-info-security' });
     expect(result.results.length).toBeGreaterThanOrEqual(1);
     result.results.forEach(r => {
       expect(r.document_id).toBe('act-l-2013-electronic-info-security');
@@ -79,7 +79,7 @@ describe('searchLegislation', () => {
   });
 
   it('should include metadata in response', async () => {
-    const result = await searchLegislation(db, { query: 'data' });
+    const result = await searchLegislation(db, { query: 'adat' });
     expect(result._metadata).toBeDefined();
   });
 });

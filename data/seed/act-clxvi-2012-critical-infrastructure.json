@@ -2,143 +2,206 @@
   "id": "act-clxvi-2012-critical-infrastructure",
   "type": "statute",
   "title": "2012. évi CLXVI. törvény a létfontosságú rendszerek és létesítmények azonosításáról, kijelöléséről és védelméről",
-  "title_en": "Act CLXVI of 2012 on the Identification, Designation and Protection of Critical Infrastructure",
+  "title_en": "Act CLXVI of 2012 on Identification, Designation and Protection of Vital Systems and Facilities",
   "short_name": "Lrtv.",
   "status": "in_force",
   "issued_date": "2012-11-12",
   "in_force_date": "2012-12-01",
   "url": "https://njt.hu/jogszabaly/2012-166-00-00",
-  "description": "Hungary's critical infrastructure protection legislation, implementing Directive 2008/114/EC on the identification and designation of European critical infrastructures and Directive (EU) 2022/2557 (CER Directive) on the resilience of critical entities.",
+  "description": "Critical infrastructure statute.",
   "provisions": [
     {
       "provision_ref": "s1",
       "section": "1",
-      "title": "§ 1 — Purpose",
-      "content": "The purpose of this Act is to establish the rules for the identification, designation and protection of critical infrastructure and European critical infrastructure in Hungary, in order to ensure the continuous operation of systems and facilities essential for the maintenance of vital societal functions. This Act implements Directive 2008/114/EC on European critical infrastructures and incorporates the resilience requirements of Directive (EU) 2022/2557 (CER Directive) on the resilience of critical entities."
+      "title": "1. §",
+      "content": "1. §"
     },
     {
       "provision_ref": "s2",
       "section": "2",
-      "title": "§ 2 — Definitions",
-      "content": "For the purposes of this Act: (a) 'critical infrastructure' means an asset, system or part thereof located in Hungary which is essential for the maintenance of vital societal functions, health, safety, security, economic or social well-being of people, and the disruption or destruction of which would have a significant impact in Hungary; (b) 'European critical infrastructure' means critical infrastructure the disruption or destruction of which would have a significant impact on at least two Member States; (c) 'critical entity' means an operator of critical infrastructure designated under this Act; (d) 'resilience' means the ability to prevent, protect against, respond to, resist, mitigate, absorb, accommodate and recover from an incident."
+      "title": "2. §",
+      "content": "2. §"
+    },
+    {
+      "provision_ref": "s2a",
+      "section": "2/A",
+      "title": "2/A. §",
+      "content": "2/A. §"
+    },
+    {
+      "provision_ref": "s2b",
+      "section": "2/B",
+      "title": "2/B. §",
+      "content": "2/B. §"
     },
     {
       "provision_ref": "s3",
       "section": "3",
-      "title": "§ 3 — Sectors of Critical Infrastructure",
-      "content": "Critical infrastructure shall be identified in the following sectors: (a) energy (electricity, oil, gas, district heating); (b) transport (road, rail, air, inland waterways); (c) water (drinking water supply and wastewater treatment); (d) health (healthcare facilities, medical supply chains); (e) food (production, processing, distribution); (f) information and communication technology; (g) financial and banking services; (h) public order and safety; (i) government and public administration; (j) space. Sector-specific criteria for identification shall be established by Government decree."
+      "title": "3. §",
+      "content": "3. §"
+    },
+    {
+      "provision_ref": "s4",
+      "section": "4",
+      "title": "4. §",
+      "content": "4. §"
     },
     {
       "provision_ref": "s5",
       "section": "5",
-      "title": "§ 5 — Identification and Designation Procedure",
-      "content": "Critical infrastructure shall be identified through a risk assessment process conducted by the sector-specific authority. The assessment shall consider: (a) the number of users dependent on the infrastructure; (b) the geographic extent of the impact of disruption; (c) the time required for recovery; (d) the availability of alternatives; (e) cross-sector dependencies. Upon identification, the Minister responsible for the relevant sector shall designate the infrastructure as critical by decree. The designation decision may be subject to periodic review."
+      "title": "5. §",
+      "content": "5. §"
+    },
+    {
+      "provision_ref": "s6",
+      "section": "6",
+      "title": "6. §",
+      "content": "6. §"
     },
     {
       "provision_ref": "s7",
       "section": "7",
-      "title": "§ 7 — Obligations of Operators",
-      "content": "Operators of critical infrastructure shall: (a) prepare and regularly update a security plan covering physical and cyber security measures; (b) designate a security liaison officer; (c) conduct regular risk assessments; (d) implement measures to ensure resilience against all-hazards threats; (e) report incidents to the competent authority; (f) cooperate with the competent authority during inspections and exercises. The security plan shall be submitted to the competent authority for approval within six months of designation."
+      "title": "7. §",
+      "content": "7. §"
     },
     {
       "provision_ref": "s8",
       "section": "8",
-      "title": "§ 8 — Security Plan",
-      "content": "The operator security plan shall contain at least: (a) identification of the critical infrastructure elements; (b) risk analysis covering natural hazards, technical failures, and intentional attacks; (c) identification of security measures including physical protection, cybersecurity, business continuity and supply chain security; (d) identification of roles and responsibilities; (e) training and exercise programme; (f) communication procedures with the competent authority and other operators. The security plan shall be reviewed and updated at least every two years."
+      "title": "8. §",
+      "content": "8. §"
+    },
+    {
+      "provision_ref": "s9",
+      "section": "9",
+      "title": "9. §",
+      "content": "9. §"
+    },
+    {
+      "provision_ref": "s9a",
+      "section": "9/A",
+      "title": "9/A. §",
+      "content": "9/A. §"
+    },
+    {
+      "provision_ref": "s9b",
+      "section": "9/B",
+      "title": "9/B. §",
+      "content": "9/B. §"
+    },
+    {
+      "provision_ref": "s9c",
+      "section": "9/C",
+      "title": "9/C. §",
+      "content": "9/C. §"
+    },
+    {
+      "provision_ref": "s9d",
+      "section": "9/D",
+      "title": "9/D. §",
+      "content": "9/D. §"
+    },
+    {
+      "provision_ref": "s9e",
+      "section": "9/E",
+      "title": "9/E. §",
+      "content": "9/E. §"
     },
     {
       "provision_ref": "s10",
       "section": "10",
-      "title": "§ 10 — Incident Reporting",
-      "content": "Operators of critical infrastructure shall report significant incidents to the competent authority without undue delay and within 24 hours of becoming aware of the incident. An incident shall be considered significant if it has a significant disruptive effect on the provision of essential services. The initial report shall be followed by a detailed report within 72 hours and a final report within one month. The competent authority shall forward reports concerning European critical infrastructure to the European Commission."
+      "title": "10. §",
+      "content": "10. §"
+    },
+    {
+      "provision_ref": "s11",
+      "section": "11",
+      "title": "11. §",
+      "content": "11. §"
     },
     {
       "provision_ref": "s12",
       "section": "12",
-      "title": "§ 12 — Competent Authority",
-      "content": "The Belügyminisztérium (Ministry of Interior) shall act as the national competent authority for critical infrastructure protection. The competent authority shall: (a) designate critical infrastructure; (b) approve operator security plans; (c) conduct inspections and audits; (d) coordinate incident response; (e) cooperate with the competent authorities of other Member States and with the European Commission; (f) maintain the national critical infrastructure inventory."
+      "title": "12. §",
+      "content": "12. §"
+    },
+    {
+      "provision_ref": "s12a",
+      "section": "12/A",
+      "title": "12/A. §",
+      "content": "12/A. §"
+    },
+    {
+      "provision_ref": "s13",
+      "section": "13",
+      "title": "13. §",
+      "content": "13. §"
+    },
+    {
+      "provision_ref": "s13a",
+      "section": "13/A",
+      "title": "13/A. §",
+      "content": "13/A. §"
     },
     {
       "provision_ref": "s14",
       "section": "14",
-      "title": "§ 14 — European Critical Infrastructure",
-      "content": "Where the disruption or destruction of critical infrastructure would have a significant impact on at least two Member States, it shall be identified as European critical infrastructure. The identification shall be carried out in consultation with the affected Member States. Operators of European critical infrastructure shall prepare an operator security plan in accordance with the requirements of Directive 2008/114/EC and shall designate a security liaison officer for communication with the competent authorities of the affected Member States."
+      "title": "14. §",
+      "content": "14. §"
+    },
+    {
+      "provision_ref": "s14a",
+      "section": "14/A",
+      "title": "14/A. §",
+      "content": "14/A. § Felhatalmazást kap a katasztrófák elleni védekezésért felelős miniszter, hogy rendeletben állapítsa meg a biztonsági összekötő személy rendszeres szakmai képzésére, továbbképzésére vonatkozó szabályokat."
     },
     {
       "provision_ref": "s15",
       "section": "15",
-      "title": "§ 15 — Resilience Requirements",
-      "content": "Critical entities designated under this Act shall take appropriate and proportionate technical, security and organisational measures to ensure their resilience. Such measures shall include: (a) physical protection of premises and infrastructure; (b) cybersecurity measures in accordance with Act L of 2013 on Electronic Information Security (Ibtv.); (c) crisis management and continuity plans; (d) employee security, including background checks for personnel with access to critical systems; (e) supply chain security. These requirements align with Article 13 of Directive (EU) 2022/2557 (CER Directive)."
+      "title": "15. §",
+      "content": "15. § (1) Ez a törvény – a (2) és a (3) bekezdésben foglaltak kivételével – a kihirdetését követő negyedik hónap első napján lép hatályba. (2) A 2. melléklet 2013. július 1-jén lép hatályba. (3) A 3. melléklet 2014. január 1-jén lép hatályba."
+    },
+    {
+      "provision_ref": "s15a",
+      "section": "15/A",
+      "title": "15/A. §",
+      "content": "15/A. §"
+    },
+    {
+      "provision_ref": "s15b",
+      "section": "15/B",
+      "title": "15/B. §",
+      "content": "15/B. §"
+    },
+    {
+      "provision_ref": "s15c",
+      "section": "15/C",
+      "title": "15/C. §",
+      "content": "15/C. §"
+    },
+    {
+      "provision_ref": "s15d",
+      "section": "15/D",
+      "title": "15/D. §",
+      "content": "15/D. §"
     },
     {
       "provision_ref": "s16",
       "section": "16",
-      "title": "§ 16 — National Risk Assessment",
-      "content": "The Government shall conduct a national risk assessment for critical infrastructure sectors at least every four years. The assessment shall identify the relevant natural and man-made risks, including climate change risks, that may affect critical infrastructure. The results of the risk assessment shall inform the designation criteria and the security requirements for operators. The national risk assessment shall be coordinated with the EU risk assessment framework."
+      "title": "16. §",
+      "content": "16. § Ez a törvény az európai kritikus infrastruktúrák azonosításáról és kijelöléséről, valamint védelmük javítása szükségességének értékeléséről szóló, 2008. december 8-i 2008/114/EK tanácsi irányelvnek való megfelelést szolgálja."
+    },
+    {
+      "provision_ref": "s17",
+      "section": "17",
+      "title": "17. §",
+      "content": "17. § Ez a törvény a hálózati és információs rendszerek biztonságának az egész Unióban egységesen magas szintjét biztosító intézkedésekről szóló, 2016. július 6-i, (EU) 2016/1148 európai parlamenti és tanácsi irányelvnek való megfelelést szolgálja."
     },
     {
       "provision_ref": "s18",
       "section": "18",
-      "title": "§ 18 — Cross-Sector Dependencies",
-      "content": "The competent authority shall identify and assess cross-sector dependencies between critical infrastructure sectors. Where a disruption in one sector may cascade to other sectors, the competent authority shall coordinate the security plans and incident response procedures of the affected operators. Operators shall share relevant information on interdependencies with the competent authority."
-    },
-    {
-      "provision_ref": "s20",
-      "section": "20",
-      "title": "§ 20 — Inspections and Audits",
-      "content": "The competent authority shall conduct regular inspections and audits of critical infrastructure operators to verify compliance with this Act. Inspections may be announced or unannounced. The competent authority may engage external experts with appropriate security clearance. Following an inspection, the competent authority may issue binding instructions to the operator and shall prescribe a deadline for compliance."
-    },
-    {
-      "provision_ref": "s22",
-      "section": "22",
-      "title": "§ 22 — Sanctions",
-      "content": "The competent authority may impose the following sanctions on critical infrastructure operators that fail to comply with this Act: (a) a warning; (b) binding instructions with a deadline for remediation; (c) an administrative fine of up to one per cent of the operator's annual turnover, but not less than five million forints and not more than five hundred million forints; (d) in cases of grave and persistent non-compliance, withdrawal of the operator's authorisation. The competent authority shall consider the gravity, duration and recurrence of the infringement."
-    },
-    {
-      "provision_ref": "s24",
-      "section": "24",
-      "title": "§ 24 — Confidentiality",
-      "content": "Information relating to the identification and designation of critical infrastructure, operator security plans, vulnerabilities and incidents shall be classified as restricted information. Such information shall be accessible only to persons with appropriate security clearance and a genuine need to know. The obligations of confidentiality shall continue after the termination of the relevant function."
-    },
-    {
-      "provision_ref": "s26",
-      "section": "26",
-      "title": "§ 26 — International Cooperation",
-      "content": "The competent authority shall cooperate with the competent authorities of other EU Member States and with international organisations in matters relating to critical infrastructure protection. Such cooperation may include joint exercises, exchange of best practices, and mutual assistance in the event of a significant incident affecting European critical infrastructure. The competent authority shall participate in the European Critical Infrastructure Warning Information Network (CIWIN), as envisaged by Directive (EU) 2022/2557 (CER Directive)."
-    },
-    {
-      "provision_ref": "s28",
-      "section": "28",
-      "title": "§ 28 — Implementing Regulations",
-      "content": "The Government shall adopt implementing regulations specifying: (a) sector-specific criteria for the identification of critical infrastructure; (b) the detailed requirements for operator security plans; (c) the methodology for risk assessment; (d) the qualifications for security liaison officers; (e) the reporting templates for incidents. The implementing regulations shall be reviewed every two years."
-    },
-    {
-      "provision_ref": "s30",
-      "section": "30",
-      "title": "§ 30 — Transitional Provisions",
-      "content": "Operators designated as critical infrastructure operators before the entry into force of this Act shall submit a security plan within one year. Operators newly designated following amendments transposing Directive (EU) 2022/2557 (CER Directive) shall comply with the requirements of this Act within eighteen months of their designation. The national risk assessment shall be conducted for the first time within two years of the entry into force of this Act."
+      "title": "18. §",
+      "content": "18. § Ez a törvény az uniós űrprogram és az Európai Unió Űrprogramügynökségének a létrehozásáról, valamint a 912/2010/EU, az 1285/2013/EU és a 377/2014/EU rendelet és az 541/2014/EU határozat hatályon kívül helyezéséről szóló, 2021. április 28-i (EU) 2021/696 európai parlamenti és tanácsi rendelet végrehajtásához szükséges rendelkezéseket állapít meg."
     }
   ],
-  "definitions": [
-    {
-      "term": "critical infrastructure",
-      "definition": "An asset, system or part thereof essential for the maintenance of vital societal functions, whose disruption or destruction would have a significant impact in Hungary.",
-      "source_provision": "s2"
-    },
-    {
-      "term": "European critical infrastructure",
-      "definition": "Critical infrastructure the disruption or destruction of which would have a significant impact on at least two EU Member States.",
-      "source_provision": "s2"
-    },
-    {
-      "term": "resilience",
-      "definition": "The ability to prevent, protect against, respond to, resist, mitigate, absorb, accommodate and recover from an incident.",
-      "source_provision": "s2"
-    },
-    {
-      "term": "critical entity",
-      "definition": "An operator of critical infrastructure designated under this Act.",
-      "source_provision": "s2"
-    }
-  ]
+  "definitions": []
 }

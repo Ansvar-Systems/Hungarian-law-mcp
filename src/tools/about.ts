@@ -46,10 +46,10 @@ export function getAbout(db: InstanceType<typeof Database>, context: AboutContex
     data_source: {
       name: 'Nemzeti Jogszabálytár (National Legislation Database)',
       authority: 'Magyar Közlöny (Hungarian Official Gazette)',
-      url: 'https://www.njt.hu',
-      license: 'Creative Commons Attribution 4.0 International (CC BY 4.0)',
+      url: 'https://njt.hu',
+      license: 'Official legal text publication (see portal terms at njt.hu)',
       jurisdiction: 'HU',
-      languages: ['en'],
+      languages: ['hu', 'en'],
     },
   };
 }

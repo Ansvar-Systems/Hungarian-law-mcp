@@ -1,35 +1,18 @@
 /**
- * HTML parser for Hungarian legislation from the Sejm ELI API (api.sejm.gov.pl).
+ * Parser for Hungarian legislation HTML served by https://njt.hu.
  *
- * Parses the structured HTML served by the ELI text endpoint into seed JSON.
- * The HTML structure uses:
- *
- * - <div class="unit unit_chpt" id="chpt_N"> for chapters (Rozdział)
- * - <div class="unit unit_arti" id="chpt_N-arti_M"> for articles (Art.)
- * - <h3> inside articles for article number (Art. N.)
- * - <div class="unit unit_pass"> for numbered paragraphs (ustępy)
- * - <div class="unit unit_pint"> for numbered points (punkty)
- * - <div data-template="xText" class="pro-text"> for text content
- *
- * Hungarian legislation references: Dz.U. YYYY poz. NNNN
- * API endpoint: https://api.sejm.gov.pl/eli/acts/DU/{YEAR}/{POZ}/text.html
+ * The parser reads section-level content ("§") from the rendered HTML and
+ * produces seed JSON compatible with the database builder.
  */
 
 export interface ActIndexEntry {
   id: string;
   title: string;
-  titleEn: string;
-  shortName: string;
+  titleEn?: string;
+  shortName?: string;
   status: 'in_force' | 'amended' | 'repealed' | 'not_yet_in_force';
-  issuedDate: string;
-  inForceDate: string;
-  /** ISAP display address, e.g. "Dz.U. 2018 poz. 1000" */
-  dziennikRef: string;
-  /** Year of publication in Dziennik Ustaw */
-  year: number;
-  /** Position number (poz.) in Dziennik Ustaw */
-  poz: number;
-  /** Human-readable URL on ISAP */
+  issuedDate?: string;
+  inForceDate?: string;
   url: string;
   description?: string;
 }
@@ -52,190 +35,272 @@ export interface ParsedAct {
   id: string;
   type: 'statute';
   title: string;
-  title_en: string;
-  short_name: string;
+  title_en?: string;
+  short_name?: string;
   status: 'in_force' | 'amended' | 'repealed' | 'not_yet_in_force';
-  issued_date: string;
-  in_force_date: string;
+  issued_date?: string;
+  in_force_date?: string;
   url: string;
   description?: string;
   provisions: ParsedProvision[];
   definitions: ParsedDefinition[];
 }
 
-/**
- * Strip HTML tags and decode common entities, normalising whitespace.
- */
-function stripHtml(html: string): string {
-  return html
-    .replace(/<[^>]+>/g, ' ')
+interface SectionAccumulator {
+  key: string;
+  section?: string;
+  chapter?: string;
+  firstPos: number;
+  blocks: string[];
+}
+
+function decodeHtmlEntities(input: string): string {
+  const named = input
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&shy;/g, '')
-    .replace(/\u00a0/g, ' ')
+    .replace(/&ndash;/g, '-')
+    .replace(/&mdash;/g, '-')
+    .replace(/&shy;/g, '');
+
+  return named
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number.parseInt(code, 10)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(Number.parseInt(hex, 16)));
+}
+
+function normalizeExtractedText(input: string): string {
+  return input
+    .replace(/[\u00a0\u2000-\u200a\u202f\u205f\u3000]/g, ' ')
     .replace(/\s+/g, ' ')
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/\(\s+/g, '(')
+    .replace(/\s+\)/g, ')')
     .trim();
 }
 
-/**
- * Find the chapter heading (Rozdział) for a given article position.
- * Searches backwards from the article position for the nearest chapter div.
- */
-function findChapterHeading(html: string, articlePos: number): string | undefined {
-  const beforeArticle = html.substring(Math.max(0, articlePos - 10000), articlePos);
+function htmlToText(html: string): string {
+  const text = decodeHtmlEntities(
+    html
+      .replace(/<sup[^>]*class="fnSup"[^>]*>[\s\S]*?<\/sup>/gi, '')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/?(?:p|div|li|ul|ol|tr|td|th|table|tbody|thead|tfoot|h[1-6])[^>]*>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+  );
 
-  // Look for the last chapter heading: Rozdział N ... Title
-  // Pattern in ISAP HTML: <div class="unit unit_chpt"...> <h3> Rozdział N ... Title </h3>
-  const chapterMatches = [
-    ...beforeArticle.matchAll(/Rozdzia[łl]\s*&nbsp;\s*(\d+[a-z]?)\s*(.*?)(?=<\/h3>|<\/P>)/gi),
-  ];
+  return normalizeExtractedText(text);
+}
 
-  if (chapterMatches.length > 0) {
-    const last = chapterMatches[chapterMatches.length - 1];
-    const chapterNum = last[1].trim();
-    // Try to find the title in subsequent <P> or <SPAN> tags
-    const afterChapter = beforeArticle.substring(last.index! + last[0].length);
-    const titleMatch = afterChapter.match(/<SPAN[^>]*class="pro-title-unit"[^>]*>(.*?)<\/SPAN>/i);
-    const title = titleMatch ? stripHtml(titleMatch[1]) : '';
+function parseSectionFromMarker(rawMarker: string): string {
+  const markerText = htmlToText(rawMarker);
+  return markerText
+    .replace(/§/g, '')
+    .replace(/\./g, '')
+    .replace(/\s+/g, '')
+    .trim();
+}
 
-    return title
-      ? `Rozdział ${chapterNum} - ${title}`
-      : `Rozdział ${chapterNum}`;
+function parseSectionFromKey(key: string): string {
+  const match = key.match(/^(\d+)([A-Z]+)?$/);
+  if (!match) return key;
+  const num = match[1];
+  const suffix = match[2] ?? '';
+  return suffix ? `${num}/${suffix}` : num;
+}
+
+function sectionToKey(section: string): string {
+  const match = section.match(/^(\d+)(?:\/([A-Za-z]+))?$/);
+  if (match) {
+    return `${match[1]}${(match[2] ?? '').toUpperCase()}`;
   }
 
-  // Also check for Dział (Division) used in larger codes
-  const dzialMatches = [
-    ...beforeArticle.matchAll(/Dzia[łl]\s*&nbsp;\s*([IVXLCDM]+[a-z]?)\s*(.*?)(?=<\/h3>|<\/P>)/gi),
-  ];
+  return section.replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+}
 
-  if (dzialMatches.length > 0) {
-    const last = dzialMatches[dzialMatches.length - 1];
-    const dzialNum = last[1].trim();
-    const afterDzial = beforeArticle.substring(last.index! + last[0].length);
-    const titleMatch = afterDzial.match(/<SPAN[^>]*class="pro-title-unit"[^>]*>(.*?)<\/SPAN>/i);
-    const title = titleMatch ? stripHtml(titleMatch[1]) : '';
+function parseSectionKeyFromBlockId(blockId: string): string | null {
+  const sectionMatch = blockId.match(/^SZ(\d+)([A-Z]+)?(?:@.*)?$/);
+  if (!sectionMatch) return null;
+  return `${sectionMatch[1]}${sectionMatch[2] ?? ''}`;
+}
 
-    return title
-      ? `Dział ${dzialNum} - ${title}`
-      : `Dział ${dzialNum}`;
+function isSectionContentClass(blockClass: string): boolean {
+  return /(szakasz|bekezdes|pont|alpont|mondat|szoveg)/i.test(blockClass);
+}
+
+function toProvisionRef(section: string): string {
+  return `s${section.replace(/[^0-9A-Za-z]/g, '').toLowerCase()}`;
+}
+
+function shouldIncludeSection(actId: string, section: string): boolean {
+  const base = Number.parseInt(section.match(/^\d+/)?.[0] ?? '0', 10);
+
+  if (actId === 'act-cxii-2011-public-data') {
+    return base >= 26 && base <= 39;
   }
 
-  return undefined;
+  if (actId === 'criminal-code-cybercrime') {
+    return section === '422' || section === '423' || section === '424';
+  }
+
+  return true;
+}
+
+function extractDefinitions(content: string, sourceProvision: string, defs: ParsedDefinition[]): void {
+  if (!/alkalmazásában/i.test(content)) return;
+
+  const pattern = /\b\d+\.\s*([^:;]{2,120}):\s*([^;]{10,500})(?=;\s*\d+\.|$)/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(content)) !== null) {
+    const term = match[1].trim();
+    const definition = match[2].trim();
+
+    if (term.length < 2 || definition.length < 10) continue;
+
+    defs.push({
+      term,
+      definition,
+      source_provision: sourceProvision,
+    });
+  }
+}
+
+function extractOfficialTitle(html: string): string | null {
+  const main = html.match(/<h1[^>]*class="[^"]*jogszabalyMainTitle[^"]*"[^>]*>([\s\S]*?)<\/h1>/i)?.[1];
+  const subtitleMatches = [...html.matchAll(
+    /<h2[^>]*class="([^"]*jogszabalySubtitle[^"]*)"[^>]*>([\s\S]*?)<\/h2>/gi
+  )];
+  const subtitle =
+    subtitleMatches.find(match => !/\bmainTitle\b/i.test(match[1]))?.[2]
+    ?? subtitleMatches.at(-1)?.[2];
+
+  const mainText = main ? htmlToText(main) : '';
+  const subtitleText = subtitle ? htmlToText(subtitle) : '';
+  const combined = subtitleText && subtitleText !== mainText
+    ? `${mainText} ${subtitleText}`.trim()
+    : mainText;
+
+  return combined.length > 0 ? combined : null;
 }
 
 /**
- * Parse HTML from the Sejm ELI API (api.sejm.gov.pl/eli/acts/DU/YYYY/POZ/text.html)
- * to extract provisions from a Hungarian statute.
- *
- * The HTML uses div-based structure:
- *   <div class="unit unit_arti" id="chpt_N-arti_M" data-id="arti_M">
- *     <h3><B>Art. M.</B></h3>
- *     <div class="unit-inner">
- *       <div class="unit unit_pass">
- *         <h3>1.</h3>
- *         <div class="unit-inner">
- *           <div data-template="xText">...content...</div>
- *         </div>
- *       </div>
- *     </div>
- *   </div>
+ * Parse njt.hu HTML into seed-compatible structure.
  */
 export function parseHungarianHtml(html: string, act: ActIndexEntry): ParsedAct {
-  const provisions: ParsedProvision[] = [];
+  const sections = new Map<string, SectionAccumulator>();
   const definitions: ParsedDefinition[] = [];
 
-  // Match all article divs: <div class="unit unit_arti ..." id="...-arti_N" data-id="arti_N">
-  const articleRegex = /<div[^>]*class="unit unit_arti[^"]*"[^>]*id="([^"]*-)?arti_(\d+[a-z_]*)"[^>]*data-id="arti_(\d+[a-z_]*)"[^>]*>/gi;
-  const articleStarts: { fullId: string; artNum: string; pos: number }[] = [];
+  // Parsed in document order to preserve statute ordering.
+  const blockRegex =
+    /<span class="jhId" id="([^"]+)"><\/span><div id="[^"]+" class="([^"]+)">([\s\S]*?)<\/div><!--[a-z]+-->(?:<!--[a-z]+-->)?/g;
 
-  let match: RegExpExecArray | null;
-  while ((match = articleRegex.exec(html)) !== null) {
-    // Skip nested articles inside amendment provisions (chpt_12-arti_111-arti_22_2 etc.)
-    const fullId = match[0];
-    const idAttr = fullId.match(/id="([^"]+)"/)?.[1] ?? '';
-    // Count how many "arti_" segments appear in the ID
-    const artiSegments = (idAttr.match(/arti_/g) ?? []).length;
-    if (artiSegments > 1) continue;
+  let currentChapterNumber = '';
+  let currentChapterTitle = '';
+  let activeSectionKey: string | null = null;
 
-    articleStarts.push({
-      fullId: idAttr,
-      artNum: match[3],
-      pos: match.index,
-    });
-  }
+  let blockMatch: RegExpExecArray | null;
+  while ((blockMatch = blockRegex.exec(html)) !== null) {
+    const blockId = blockMatch[1];
+    const blockClass = blockMatch[2];
+    const blockHtml = blockMatch[3];
+    const blockPos = blockMatch.index;
 
-  for (let i = 0; i < articleStarts.length; i++) {
-    const article = articleStarts[i];
-    const startPos = article.pos;
-
-    // Extract content up to next article or end
-    const endPos = i + 1 < articleStarts.length
-      ? articleStarts[i + 1].pos
-      : html.length;
-    const articleHtml = html.substring(startPos, endPos);
-
-    // Extract article number from <h3><B>Art. N.</B></h3> or <h3><B>Art. N<sup>...</B></h3>
-    const artHeadingMatch = articleHtml.match(
-      /<h3[^>]*>\s*<B[^>]*>\s*Art\.?\s*&nbsp;?\s*(\d+[a-z]*)\b/i
-    );
-
-    const artNum = artHeadingMatch
-      ? artHeadingMatch[1].trim()
-      : article.artNum.replace(/_/g, '');
-
-    // Normalize: remove underscores from article numbers like "22_2"
-    const normalizedNum = artNum.replace(/_/g, '');
-    const provisionRef = `art${normalizedNum}`;
-
-    // Find chapter heading
-    const chapter = findChapterHeading(html, startPos);
-
-    // Extract text content, stripping HTML
-    // Remove the article heading to avoid duplication
-    const contentHtml = articleHtml
-      .replace(/<h3[^>]*>\s*<B[^>]*>\s*Art\.?\s*&nbsp;?\s*\d+[a-z]*\.?\s*<\/B>\s*<\/h3>/i, '');
-    let content = stripHtml(contentHtml);
-
-    // Skip very short articles (likely just structural markers)
-    if (content.length < 5) continue;
-
-    // Cap content at 12K characters
-    if (content.length > 12000) {
-      content = content.substring(0, 12000);
+    if (blockClass === 'fejezet') {
+      currentChapterNumber = htmlToText(blockHtml);
+    } else if (blockClass === 'fejezetCim') {
+      currentChapterTitle = htmlToText(blockHtml);
     }
 
-    // Build a title from the first sentence or paragraph if meaningful
-    const title = `Art. ${normalizedNum}`;
+    const markerMatch = blockHtml.match(/<span class="szakasz-jel">([\s\S]*?)<\/span>/i);
+    const sectionFromMarker = markerMatch ? parseSectionFromMarker(markerMatch[1]) : '';
+    const keyFromId = parseSectionKeyFromBlockId(blockId);
+
+    let key: string | null = null;
+    if (keyFromId) {
+      key = keyFromId;
+      activeSectionKey = keyFromId;
+    } else if (sectionFromMarker.length > 0) {
+      key = sectionToKey(sectionFromMarker);
+      activeSectionKey = key;
+    } else if (activeSectionKey && isSectionContentClass(blockClass)) {
+      key = activeSectionKey;
+    }
+
+    if (!key) continue;
+    let acc = sections.get(key);
+
+    if (!acc) {
+      const chapter = [currentChapterNumber, currentChapterTitle]
+        .filter(Boolean)
+        .join(' - ') || undefined;
+
+      acc = {
+        key,
+        chapter,
+        firstPos: blockPos,
+        blocks: [],
+      };
+      sections.set(key, acc);
+    }
+
+    if (sectionFromMarker.length > 0) {
+      acc.section = sectionFromMarker;
+    } else if (!acc.section) {
+      acc.section = parseSectionFromKey(key);
+    }
+
+    if (isSectionContentClass(blockClass) || sectionFromMarker.length > 0) {
+      acc.blocks.push(blockHtml);
+    }
+  }
+
+  const provisions: ParsedProvision[] = [];
+  const sortedSections = Array.from(sections.values()).sort((a, b) => a.firstPos - b.firstPos);
+
+  for (const sectionData of sortedSections) {
+    const section = sectionData.section ?? parseSectionFromKey(sectionData.key);
+    if (!shouldIncludeSection(act.id, section)) continue;
+
+    const contentParts = sectionData.blocks
+      .map(htmlToText)
+      .filter(part => part.length > 0);
+
+    if (contentParts.length === 0) continue;
+
+    const content = contentParts.join(' ').replace(/\s+/g, ' ').trim();
+    if (content.length === 0) continue;
+
+    const provisionRef = toProvisionRef(section);
 
     provisions.push({
       provision_ref: provisionRef,
-      chapter,
-      section: normalizedNum,
-      title,
+      chapter: sectionData.chapter,
+      section,
+      title: `${section}. §`,
       content,
     });
 
-    // Extract definitions from definition articles
-    // Hungarian acts use "ilekroć mowa" (whenever mentioned), "rozumie się przez to"
-    // (this is understood as), or "oznacza" (means)
-    if (
-      content.includes('ilekro') ||
-      content.includes('rozumie si') ||
-      content.includes('oznacza') ||
-      content.includes('nale') && content.includes('rozumie')
-    ) {
-      extractDefinitions(content, provisionRef, definitions);
-    }
+    extractDefinitions(content, provisionRef, definitions);
   }
+
+  const dedupDefinitions: ParsedDefinition[] = [];
+  const seenDefinitions = new Set<string>();
+  for (const def of definitions) {
+    const key = `${def.term.toLowerCase()}|${def.source_provision ?? ''}`;
+    if (seenDefinitions.has(key)) continue;
+    seenDefinitions.add(key);
+    dedupDefinitions.push(def);
+  }
+
+  const officialTitle = extractOfficialTitle(html);
+  const keepCustomTitle = act.id === 'act-cxii-2011-public-data' || act.id === 'criminal-code-cybercrime';
 
   return {
     id: act.id,
     type: 'statute',
-    title: act.title,
+    title: keepCustomTitle ? act.title : (officialTitle ?? act.title),
     title_en: act.titleEn,
     short_name: act.shortName,
     status: act.status,
@@ -244,205 +309,130 @@ export function parseHungarianHtml(html: string, act: ActIndexEntry): ParsedAct 
     url: act.url,
     description: act.description,
     provisions,
-    definitions,
+    definitions: dedupDefinitions,
   };
 }
 
 /**
- * Extract definitions from Hungarian legal text.
- *
- * Hungarian definitions typically use patterns like:
- *   - "«term» – oznacza ..." ("term" – means ...)
- *   - "N) term – ..." (numbered list of definitions)
- *   - "ilekroć ... mowa o «term» – rozumie się przez to ..."
- */
-function extractDefinitions(
-  text: string,
-  sourceProvision: string,
-  definitions: ParsedDefinition[],
-): void {
-  // Pattern: numbered definitions like "1) term - definition;"
-  const numberedDefRegex = /\d+\)\s+([^–\-]+?)\s+[–\-]\s+(.*?)(?=;\s*\d+\)|$)/g;
-  let defMatch: RegExpExecArray | null;
-
-  while ((defMatch = numberedDefRegex.exec(text)) !== null) {
-    const term = defMatch[1].trim();
-    const definition = defMatch[2].replace(/;$/, '').trim();
-
-    if (term.length > 1 && term.length < 100 && definition.length > 5) {
-      definitions.push({
-        term,
-        definition,
-        source_provision: sourceProvision,
-      });
-    }
-  }
-
-  // Pattern: «quoted term» – definition
-  const quotedDefRegex = /[„«\u201e]([^"»\u201d]+)["\u201d»]\s*[–\-]\s*(.*?)(?=[;.]\s*[„«\u201e]|[;.]\s*$)/g;
-  while ((defMatch = quotedDefRegex.exec(text)) !== null) {
-    const term = defMatch[1].trim();
-    const definition = defMatch[2].replace(/[;.]$/, '').trim();
-
-    if (term.length > 1 && term.length < 100 && definition.length > 5) {
-      definitions.push({
-        term,
-        definition,
-        source_provision: sourceProvision,
-      });
-    }
-  }
-}
-
-/**
- * Pre-configured list of key Hungarian Acts to ingest.
- *
- * Source: api.sejm.gov.pl (Sejm ELI API)
- * URL pattern: https://api.sejm.gov.pl/eli/acts/DU/{YEAR}/{POZ}/text.html
- *
- * These are the most important Hungarian statutes for cybersecurity, data protection,
- * and compliance use cases. References use the Dziennik Ustaw (Journal of Laws)
- * format: Dz.U. YYYY poz. NNNN.
+ * Curated statutes covered by the MCP.
  */
 export const KEY_HUNGARIAN_ACTS: ActIndexEntry[] = [
   {
-    id: 'dpa-2018',
-    title: 'Ustawa z dnia 10 maja 2018 r. o ochronie danych osobowych',
-    titleEn: 'Personal Data Protection Act 2018',
-    shortName: 'UODO 2018',
+    id: 'act-cxii-2011-info-self-determination',
+    title: '2011. évi CXII. törvény az információs önrendelkezési jogról és az információszabadságról',
+    titleEn: 'Act CXII of 2011 on Informational Self-Determination and Freedom of Information',
+    shortName: 'Infotörvény',
     status: 'in_force',
-    issuedDate: '2018-05-10',
-    inForceDate: '2018-05-25',
-    dziennikRef: 'Dz.U. 2018 poz. 1000',
-    year: 2018,
-    poz: 1000,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180001000',
-    description: 'GDPR implementing provisions (RODO); establishes UODO (Urząd Ochrony Danych Osobowych) as the supervisory authority; covers certification, codes of conduct, and administrative penalties',
+    issuedDate: '2011-07-26',
+    inForceDate: '2012-01-01',
+    url: 'https://njt.hu/jogszabaly/2011-112-00-00',
+    description:
+      'Hungary\'s primary data protection and freedom of information statute, including GDPR-aligned provisions.',
   },
   {
-    id: 'ksc-2018',
-    title: 'Ustawa z dnia 5 lipca 2018 r. o krajowym systemie cyberbezpieczeństwa',
-    titleEn: 'National Cybersecurity System Act 2018 (KSC)',
-    shortName: 'KSC',
+    id: 'act-cxii-2011-public-data',
+    title: '2011. évi CXII. törvény - Közérdekű adatok megismerése (III. fejezet)',
+    titleEn: 'Act CXII of 2011 - Access to Public Interest Data (Chapter III)',
+    shortName: 'Infotörvény - Public Data',
     status: 'in_force',
-    issuedDate: '2018-07-05',
-    inForceDate: '2018-08-28',
-    dziennikRef: 'Dz.U. 2018 poz. 1560',
-    year: 2018,
-    poz: 1560,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180001560',
-    description: 'NIS Directive implementation; establishes national cybersecurity system with CSIRT teams (CSIRT NASK, CSIRT GOV, CSIRT MON); covers essential services operators and digital service providers',
+    issuedDate: '2011-07-26',
+    inForceDate: '2012-01-01',
+    url: 'https://njt.hu/jogszabaly/2011-112-00-00',
+    description:
+      'Public-data access provisions extracted from the Infotörvény (sections 26-39).',
   },
   {
-    id: 'ksh-2000',
-    title: 'Ustawa z dnia 15 września 2000 r. - Kodeks spółek handlowych',
-    titleEn: 'Commercial Companies Code (KSH)',
-    shortName: 'KSH',
+    id: 'act-l-2013-electronic-info-security',
+    title: '2013. évi L. törvény az állami és önkormányzati szervek elektronikus információbiztonságáról',
+    titleEn: 'Act L of 2013 on Electronic Information Security of State and Municipal Bodies',
+    shortName: 'Ibtv.',
     status: 'in_force',
-    issuedDate: '2000-09-15',
-    inForceDate: '2001-01-01',
-    dziennikRef: 'Dz.U. 2000 nr 94 poz. 1037',
-    year: 2000,
-    poz: 1037,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20000940037',
-    description: 'Comprehensive commercial companies law governing partnerships (spółka jawna, komandytowa, etc.) and capital companies (sp. z o.o. and S.A.); corporate governance requirements',
+    issuedDate: '2013-04-25',
+    inForceDate: '2013-07-01',
+    url: 'https://njt.hu/jogszabaly/2013-50-00-00',
+    description:
+      'Core Hungarian public-sector cybersecurity framework (Ibtv.).',
   },
   {
-    id: 'kodeks-karny-1997',
-    title: 'Ustawa z dnia 6 czerwca 1997 r. - Kodeks karny',
-    titleEn: 'Criminal Code (Kodeks karny)',
-    shortName: 'KK',
+    id: 'act-cviii-2001-electronic-commerce',
+    title:
+      '2001. évi CVIII. törvény az elektronikus kereskedelmi szolgáltatások, valamint az információs társadalommal összefüggő szolgáltatások egyes kérdéseiről',
+    titleEn:
+      'Act CVIII of 2001 on Electronic Commerce and Certain Information Society Services',
+    shortName: 'Ekertv.',
     status: 'in_force',
-    issuedDate: '1997-06-06',
-    inForceDate: '1998-09-01',
-    dziennikRef: 'Dz.U. 1997 nr 88 poz. 553',
-    year: 1997,
-    poz: 553,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU19970880553',
-    description: 'Criminal Code; cybercrime provisions in Art. 267 (unauthorized access), Art. 268 (data destruction), Art. 268a (computer sabotage), Art. 269 (sabotage of critical systems), Art. 269a (DoS), Art. 269b (hacking tools)',
+    issuedDate: '2001-12-21',
+    inForceDate: '2002-01-16',
+    url: 'https://njt.hu/jogszabaly/2001-108-00-00',
+    description: 'Hungarian e-commerce and intermediary liability statute.',
   },
   {
-    id: 'e-services-2002',
-    title: 'Ustawa z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną',
-    titleEn: 'Act on Provision of Electronic Services',
-    shortName: 'E-Services Act',
+    id: 'act-c-2003-electronic-communications',
+    title: '2003. évi C. törvény az elektronikus hírközlésről',
+    titleEn: 'Act C of 2003 on Electronic Communications',
+    shortName: 'Eht.',
     status: 'in_force',
-    issuedDate: '2002-07-18',
-    inForceDate: '2002-10-10',
-    dziennikRef: 'Dz.U. 2002 nr 144 poz. 1204',
-    year: 2002,
-    poz: 1204,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20021441204',
-    description: 'E-Commerce Directive implementation; regulates electronic services, ISP liability, spam prohibition, electronic contracts',
+    issuedDate: '2003-11-17',
+    inForceDate: '2004-01-01',
+    url: 'https://njt.hu/jogszabaly/2003-100-00-00',
+    description: 'Primary telecommunications statute (Eht.).',
   },
   {
-    id: 'telecom-2004',
-    title: 'Ustawa z dnia 16 lipca 2004 r. - Prawo telekomunikacyjne',
-    titleEn: 'Telecommunications Law',
-    shortName: 'PT',
+    id: 'act-clxvi-2012-critical-infrastructure',
+    title:
+      '2012. évi CLXVI. törvény a létfontosságú rendszerek és létesítmények azonosításáról, kijelöléséről és védelméről',
+    titleEn:
+      'Act CLXVI of 2012 on Identification, Designation and Protection of Vital Systems and Facilities',
+    shortName: 'Lrtv.',
     status: 'in_force',
-    issuedDate: '2004-07-16',
-    inForceDate: '2004-09-03',
-    dziennikRef: 'Dz.U. 2004 nr 171 poz. 1800',
-    year: 2004,
-    poz: 1800,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20041711800',
-    description: 'Telecommunications regulation; data retention, communications security, network integrity obligations, UKE (Office of Electronic Communications) authority',
+    issuedDate: '2012-11-12',
+    inForceDate: '2012-12-01',
+    url: 'https://njt.hu/jogszabaly/2012-166-00-00',
+    description: 'Critical infrastructure statute.',
   },
   {
-    id: 'constitution-1997',
-    title: 'Konstytucja Rzeczypospolitej Polskiej z dnia 2 kwietnia 1997 r.',
-    titleEn: 'Constitution of the Republic of Poland',
-    shortName: 'Konstytucja RP',
+    id: 'act-liv-2018-trade-secrets',
+    title: '2018. évi LIV. törvény az üzleti titok védelméről',
+    titleEn: 'Act LIV of 2018 on the Protection of Trade Secrets',
+    shortName: 'Üzleti titok tv.',
     status: 'in_force',
-    issuedDate: '1997-04-02',
-    inForceDate: '1997-10-17',
-    dziennikRef: 'Dz.U. 1997 nr 78 poz. 483',
-    year: 1997,
-    poz: 483,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU19970780483',
-    description: 'Supreme law; Art. 47 (privacy), Art. 49 (communication secrecy), Art. 51 (personal data protection), Art. 54 (freedom of expression)',
+    issuedDate: '2018-06-29',
+    inForceDate: '2018-08-08',
+    url: 'https://njt.hu/jogszabaly/2018-54-00-00',
+    description: 'Hungarian trade secrets statute (EU 2016/943 implementation context).',
   },
   {
-    id: 'kodeks-cywilny-1964',
-    title: 'Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny',
-    titleEn: 'Civil Code (Kodeks cywilny)',
-    shortName: 'KC',
+    id: 'act-ccxxii-2015-trust-services',
+    title:
+      '2015. évi CCXXII. törvény az elektronikus ügyintézés és a bizalmi szolgáltatások általános szabályairól',
+    titleEn: 'Act CCXXII of 2015 on Electronic Administration and Trust Services',
+    shortName: 'E-ügyintézési tv.',
     status: 'in_force',
-    issuedDate: '1964-04-23',
-    inForceDate: '1965-01-01',
-    dziennikRef: 'Dz.U. 1964 nr 16 poz. 93',
-    year: 1964,
-    poz: 93,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU19640160093',
-    description: 'Core private law; personality rights protection (Art. 23-24), contract law, liability for damages, electronic declarations of intent',
+    issuedDate: '2015-12-21',
+    inForceDate: '2016-07-01',
+    url: 'https://njt.hu/jogszabaly/2015-222-00-00',
+    description: 'Electronic administration and trust services statute.',
   },
   {
-    id: 'banking-law-1997',
-    title: 'Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe',
-    titleEn: 'Banking Law',
-    shortName: 'PB',
+    id: 'act-lxiii-1999-public-procurement',
+    title: '2015. évi CXLIII. törvény a közbeszerzésekről',
+    titleEn: 'Act CXLIII of 2015 on Public Procurement',
+    shortName: 'Kbt.',
     status: 'in_force',
-    issuedDate: '1997-08-29',
-    inForceDate: '1998-01-01',
-    dziennikRef: 'Dz.U. 1997 nr 140 poz. 939',
-    year: 1997,
-    poz: 939,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU19971400939',
-    description: 'Banking regulation; banking secrecy obligations, outsourcing of banking activities, IT security requirements for banks, cloud computing provisions',
+    issuedDate: '2015-11-02',
+    inForceDate: '2015-11-01',
+    url: 'https://njt.hu/jogszabaly/2015-143-00-00',
+    description: 'Public procurement statute.',
   },
   {
-    id: 'kpa-1960',
-    title: 'Ustawa z dnia 14 czerwca 1960 r. - Kodeks postępowania administracyjnego',
-    titleEn: 'Code of Administrative Procedure (KPA)',
-    shortName: 'KPA',
+    id: 'criminal-code-cybercrime',
+    title: '2012. évi C. törvény a Büntető Törvénykönyvről - Informatikai bűncselekmények',
+    titleEn: 'Act C of 2012 on the Criminal Code - Cybercrime Provisions',
+    shortName: 'Btk. (Cybercrime)',
     status: 'in_force',
-    issuedDate: '1960-06-14',
-    inForceDate: '1961-01-01',
-    dziennikRef: 'Dz.U. 1960 nr 30 poz. 168',
-    year: 1960,
-    poz: 168,
-    url: 'https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU19600300168',
-    description: 'Administrative procedure code; governs proceedings before UODO (data protection authority), UKE, and other regulators; electronic administration provisions',
+    issuedDate: '2012-07-13',
+    inForceDate: '2013-07-01',
+    url: 'https://njt.hu/jogszabaly/2012-100-00-00',
+    description: 'Cybercrime-relevant sections (422-424) from the Criminal Code.',
   },
 ];

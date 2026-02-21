@@ -1,127 +1,36 @@
 {
   "id": "criminal-code-cybercrime",
   "type": "statute",
-  "title": "2012. évi C. törvény a Büntető Törvénykönyvről — Informatikai bűncselekmények",
-  "title_en": "Act C of 2012 on the Criminal Code — Cybercrime Provisions",
+  "title": "2012. évi C. törvény a Büntető Törvénykönyvről - Informatikai bűncselekmények",
+  "title_en": "Act C of 2012 on the Criminal Code - Cybercrime Provisions",
   "short_name": "Btk. (Cybercrime)",
   "status": "in_force",
   "issued_date": "2012-07-13",
   "in_force_date": "2013-07-01",
   "url": "https://njt.hu/jogszabaly/2012-100-00-00",
-  "description": "Cybercrime and computer-related offences from the Hungarian Criminal Code (Büntető Törvénykönyv, Btk.). Covers information system fraud, unauthorised access, data interference, system interference, and misuse of devices. Transposing Directive 2013/40/EU on attacks against information systems.",
+  "description": "Cybercrime-relevant sections (422-424) from the Criminal Code.",
   "provisions": [
     {
-      "provision_ref": "s375",
-      "section": "375",
-      "title": "§ 375 — Information System Fraud (Információs rendszer felhasználásával elkövetett csalás)",
-      "content": "Any person who, with the intention of obtaining an unlawful financial gain for himself or another, introduces data into an information system, alters, deletes or renders inaccessible data processed in an information system, or otherwise interferes with the functioning of an information system, and thereby causes financial damage, commits the offence of information system fraud. The punishment shall be imprisonment for up to three years. If the offence results in significant financial damage (exceeding five million forints), the punishment shall be imprisonment between one and five years. If the offence results in particularly significant financial damage (exceeding fifty million forints), the punishment shall be imprisonment between two and eight years. If the offence is committed as part of a criminal organisation, the punishment shall be imprisonment between five and ten years."
-    },
-    {
       "provision_ref": "s422",
+      "chapter": "XLIII. Fejezet",
       "section": "422",
-      "title": "§ 422 — Unauthorised Access to an Information System (Információs rendszer vagy adat megsértése)",
-      "content": "Any person who gains unauthorised access to an information system by breaching or circumventing the protective measures of the system commits the offence of unauthorised access. The punishment shall be imprisonment for up to two years. If the offence is committed against an information system operated by a public body, a financial institution, or a critical infrastructure operator, the punishment shall be imprisonment for up to three years. If the offence results in a significant disruption of the system or in the compromise of a large quantity of personal data, the punishment shall be imprisonment between one and five years. This provision implements Article 3 of Directive 2013/40/EU on attacks against information systems."
+      "title": "422. §",
+      "content": "422. § (1) Aki személyes adat, magántitok, gazdasági titok vagy üzleti titok jogosulatlan megismerése céljából a) más lakását, ahhoz tartozó egyéb helyiségét vagy az azokhoz tartozó bekerített helyet titokban átkutatja, b) más lakásában, ahhoz tartozó egyéb helyiségében vagy az azokhoz tartozó bekerített helyen történteket technikai eszköz alkalmazásával titokban megfigyeli vagy rögzíti, c) más postai küldeményét vagy egyéb zárt küldeményét titokban felbontja vagy megszerzi, és annak tartalmát technikai eszközzel rögzíti, d) elektronikus hírközlő hálózat vagy eszköz útján, illetve információs rendszeren folytatott kommunikáció tartalmát titokban kifürkészi, és az észlelteket technikai eszközzel rögzíti, e) információs rendszerben kezelt adatokat titokban kifürkész, és az észlelteket technikai eszközzel rögzíti, bűntett miatt három évig terjedő szabadságvesztéssel büntetendő. (1a) Az (1) bekezdés szerint büntetendő, aki személyes adat, magántitok, gazdasági titok vagy üzleti titok jogosulatlan megismerése céljából a) nyilvános vagy a közönség részére nyitva álló helyen kívül más helyiséget vagy területet, – a közösségi közlekedési eszköz kivételével – járművet, továbbá más használatában levő tárgyat titokban átkutat, b) nyilvános vagy a közönség részére nyitva álló helyen kívül más helyiségben vagy területen, továbbá – a közösségi közlekedési eszköz kivételével – járművön történteket titokban technikai eszköz alkalmazásával megfigyeli vagy rögzíti. (2) Az (1) bekezdés szerint büntetendő, aki fedett nyomozó, illetve titkos információgyűjtés folytatására vagy leplezett eszközök alkalmazására feljogosított szervvel titkosan együttműködő személy kilétének vagy tevékenységének megállapítása céljából az (1) bekezdésben meghatározottakon kívül információt gyűjt. (3) Az (1) bekezdés szerint büntetendő, aki az (1)–(2) bekezdésben meghatározott módon megismert személyes adatot, magántitkot, gazdasági titkot vagy üzleti titkot továbbít vagy felhasznál. (4) A büntetés egy évtől öt évig terjedő szabadságvesztés, ha az (1)–(3) bekezdésben meghatározott tiltott adatszerzést a) hivatalos eljárás színlelésével, b) üzletszerűen, c) bűnszövetségben vagy d) jelentős érdeksérelmet okozva követik el."
     },
     {
       "provision_ref": "s423",
+      "chapter": "XLIII. Fejezet",
       "section": "423",
-      "title": "§ 423 — Data Interference (Információs rendszerben tárolt adatok megsértése)",
-      "content": "Any person who, without authorisation, deletes, damages, alters, or renders inaccessible data stored in or transmitted by an information system commits the offence of data interference. The punishment shall be imprisonment for up to two years. If the data affected is personal data of a special category or classified information, the punishment shall be imprisonment between one and five years. If the offence causes significant damage to the operation of an essential service, the punishment shall be imprisonment between two and eight years. This provision implements Article 5 of Directive 2013/40/EU on attacks against information systems."
-    },
-    {
-      "provision_ref": "s423a",
-      "section": "423/A",
-      "title": "§ 423/A — System Interference (Információs rendszer működésének megzavarása)",
-      "content": "Any person who, without authorisation, seriously hinders or interrupts the functioning of an information system by: (a) inputting data; (b) transmitting, damaging, deleting, deteriorating, altering or suppressing data; (c) rendering data inaccessible; or (d) carrying out any other operation that disrupts the system, commits the offence of system interference. The punishment shall be imprisonment for up to three years. If the system affected is a critical infrastructure or provides an essential service, the punishment shall be imprisonment between one and five years. If the offence is committed by means of a botnet or results in particularly significant damage, the punishment shall be imprisonment between two and eight years. This provision implements Article 4 of Directive 2013/40/EU on attacks against information systems."
+      "title": "423. §",
+      "content": "423. § (1) Aki információs rendszerbe az információs rendszer védelmét biztosító technikai intézkedés megsértésével vagy kijátszásával jogosulatlanul belép, vagy a belépési jogosultsága kereteit túllépve vagy azt megsértve bent marad, vétség miatt két évig terjedő szabadságvesztéssel büntetendő. (2) Aki a) az információs rendszer működését jogosulatlanul vagy jogosultsága kereteit megsértve akadályozza, vagy b) információs rendszerben lévő adatot jogosulatlanul vagy jogosultsága kereteit megsértve megváltoztat, töröl vagy hozzáférhetetlenné tesz, bűntett miatt három évig terjedő szabadságvesztéssel büntetendő. (3) A büntetés bűntett miatt egy évtől öt évig terjedő szabadságvesztés, ha a (2) bekezdésben meghatározott bűncselekmény jelentős számú információs rendszert érint, vagy jelentős érdeksérelmet okoz. (4) A büntetés két évtől nyolc évig terjedő szabadságvesztés, ha a bűncselekményt közérdekű üzem ellen követik el. (5) E § alkalmazásában adat: információs rendszerben tárolt, kezelt, feldolgozott vagy továbbított tények, információk vagy fogalmak minden olyan formában való megjelenése, amely információs rendszer általi feldolgozásra alkalmas, ideértve azon programot is, amely valamely funkciónak az információs rendszer által való végrehajtását biztosítja."
     },
     {
       "provision_ref": "s424",
+      "chapter": "XLIII. Fejezet",
       "section": "424",
-      "title": "§ 424 — Misuse of Devices (Információs rendszer védelmét biztosító technikai intézkedés kijátszása)",
-      "content": "Any person who produces, sells, procures for use, imports, distributes, or otherwise makes available: (a) a device, including a computer program, designed or adapted primarily for the purpose of committing any of the offences defined in Sections 422 to 423/A; (b) a computer password, access code or similar data by which an information system is capable of being accessed, without authorisation and with the intention that it be used for the purpose of committing any offence under Sections 422 to 423/A, commits the offence of misuse of devices. The punishment shall be imprisonment for up to two years. Possession of such devices or data with the intention of committing an offence under Sections 422 to 423/A shall be punishable by imprisonment for up to one year. This provision implements Article 7 of Directive 2013/40/EU on attacks against information systems."
-    },
-    {
-      "provision_ref": "s375a",
-      "section": "375/A",
-      "title": "§ 375/A — Phishing and Identity Theft",
-      "content": "Any person who, by means of false or misleading electronic communication or by creating a fraudulent information system interface, induces another person to disclose personal identification data, authentication credentials, financial account data, or other data that enables access to an information system or financial service, commits the offence of online identity fraud. The punishment shall be imprisonment for up to three years. If the offence is committed on a large scale affecting a significant number of victims, the punishment shall be imprisonment between one and five years."
-    },
-    {
-      "provision_ref": "s375b",
-      "section": "375/B",
-      "title": "§ 375/B — Ransomware",
-      "content": "Any person who renders the data or system of another inaccessible or threatens to disclose, destroy or render inaccessible data unless a financial payment is made, using an information system, commits the offence of digital extortion. The punishment shall be imprisonment between one and five years. If the offence targets a critical infrastructure, a health institution, or an educational institution, the punishment shall be imprisonment between two and eight years. If the offence is committed as part of a criminal organisation, the punishment shall be imprisonment between five and ten years."
-    },
-    {
-      "provision_ref": "s422a",
-      "section": "422/A",
-      "title": "§ 422/A — Illegal Interception",
-      "content": "Any person who, without authorisation, intercepts, by technical means, non-public transmissions of data to, from or within an information system, including electromagnetic emissions from an information system carrying such data, commits the offence of illegal interception. The punishment shall be imprisonment for up to three years. If the data intercepted includes classified information or special categories of personal data, the punishment shall be imprisonment between one and five years. This provision implements Article 6 of Directive 2013/40/EU on attacks against information systems."
-    },
-    {
-      "provision_ref": "s137",
-      "section": "137",
-      "title": "§ 137 — Attack Against Critical Information Infrastructure",
-      "content": "Any person who commits an offence under Sections 422 to 424 against an information system designated as part of the national critical information infrastructure commits an aggravated offence. The punishment shall be the maximum applicable to the underlying offence increased by one-half, but shall not exceed twenty years of imprisonment. Critical information infrastructure includes systems essential for energy supply, water management, healthcare, transport, telecommunications, and financial services."
-    },
-    {
-      "provision_ref": "s176",
-      "section": "176",
-      "title": "§ 176 — Misuse of Personal Data",
-      "content": "Any person who, for the purpose of causing harm, unlawfully processes personal data or who fails to take the security measures required for the protection of personal data, and thereby causes significant harm to the data subject, commits the offence of misuse of personal data. The punishment shall be imprisonment for up to one year. If the offence involves special categories of personal data or the personal data of a large number of persons, the punishment shall be imprisonment for up to two years."
-    },
-    {
-      "provision_ref": "s300",
-      "section": "300",
-      "title": "§ 300 — Breach of Secrecy of Correspondence in Electronic Communications",
-      "content": "Any person who, without authorisation, opens, obtains or discloses the content of an electronic communication of another person, commits the offence of breach of secrecy of correspondence. The punishment shall be imprisonment for up to one year. If the offence is committed by a person entrusted with the transmission of the communication (such as a service provider employee), the punishment shall be imprisonment for up to two years."
-    },
-    {
-      "provision_ref": "s418",
-      "section": "418",
-      "title": "§ 418 — Copyright Infringement by Electronic Means",
-      "content": "Any person who, by electronic means and on a commercial scale, reproduces or makes available to the public a copyright-protected work without the authorisation of the right holder, commits the offence of copyright infringement. The punishment shall be imprisonment for up to two years. If the infringement involves a particularly large number of works or causes significant financial damage to the right holder, the punishment shall be imprisonment between one and five years."
-    },
-    {
-      "provision_ref": "s459",
-      "section": "459",
-      "title": "§ 459 — Interpretive Provisions",
-      "content": "For the purposes of this Act: (a) 'information system' means any device or group of interconnected or related devices, one or more of which performs automatic processing of data pursuant to a program; (b) 'data' includes any representation of facts, information or concepts in a form suitable for processing in an information system; (c) 'critical infrastructure' means an asset or system essential for the maintenance of vital societal functions, health, safety, security, economic or social well-being, the disruption or destruction of which would have significant impact in Hungary; (d) 'significant damage' means damage exceeding five hundred thousand forints."
-    },
-    {
-      "provision_ref": "s460",
-      "section": "460",
-      "title": "§ 460 — Jurisdiction",
-      "content": "Hungarian criminal law shall apply to offences committed through information systems where: (a) the perpetrator or the victim is a Hungarian citizen; (b) the information system affected is located in Hungary; (c) the act was committed from the territory of Hungary; or (d) the act has a significant effect in Hungary. These jurisdictional provisions ensure effective prosecution of cybercrime in accordance with Articles 12-13 of Directive 2013/40/EU on attacks against information systems."
-    },
-    {
-      "provision_ref": "s461",
-      "section": "461",
-      "title": "§ 461 — Aggravating Circumstances",
-      "content": "The punishment for offences under Sections 375 and 422 to 424 shall be increased if the offence: (a) is committed as part of a criminal organisation; (b) causes particularly significant damage (exceeding fifty million forints); (c) affects the personal data of a large number of persons (one thousand or more); (d) targets a system that is part of the national critical infrastructure; (e) is committed during a state of emergency or crisis. The increase shall be one-half of the maximum sentence otherwise applicable."
-    },
-    {
-      "provision_ref": "s462",
-      "section": "462",
-      "title": "§ 462 — International Cooperation",
-      "content": "The Hungarian authorities shall cooperate with the competent authorities of other EU Member States and third countries in the investigation and prosecution of cybercrime offences. Such cooperation shall include mutual legal assistance, joint investigation teams, and the exchange of information through established channels including Europol, Eurojust, and the European Judicial Network. The 24/7 contact point for international cooperation on cybercrime shall be designated by the Government in accordance with the Budapest Convention on Cybercrime."
+      "title": "424. §",
+      "content": "424. § (1) Aki a 375. §-ban, a 422. § (1) bekezdés d) pontjában vagy a 423. §-ban meghatározott bűncselekmény elkövetése céljából az ehhez szükséges vagy ezt könnyítő a) jelszót vagy számítástechnikai programot készít, átad, hozzáférhetővé tesz, megszerez, vagy forgalomba hoz, illetve b) jelszó vagy számítástechnikai program készítésére vonatkozó gazdasági, műszaki, szervezési ismereteit más rendelkezésére bocsátja, vétség miatt két évig terjedő szabadságvesztéssel büntetendő. (2) Nem büntethető az (1) bekezdés a) pontjában meghatározott bűncselekmény elkövetője, ha – mielőtt a bűncselekmény elkövetéséhez szükséges vagy ezt megkönnyítő jelszó vagy számítástechnikai program készítése a büntetőügyekben eljáró hatóság tudomására jutott volna – tevékenységét a hatóság előtt felfedi, az elkészített dolgot a hatóságnak átadja, és lehetővé teszi a készítésben részt vevő más személy kilétének megállapítását. (3) E § alkalmazásában jelszó: az információs rendszerbe vagy annak egy részébe való belépést lehetővé tevő, számokból, betűkből, jelekből, biometrikus adatokból vagy ezek kombinációjából álló bármely azonosító."
     }
   ],
-  "definitions": [
-    {
-      "term": "information system",
-      "definition": "Any device or group of interconnected or related devices, one or more of which performs automatic processing of data pursuant to a program.",
-      "source_provision": "s459"
-    },
-    {
-      "term": "critical infrastructure",
-      "definition": "An asset or system essential for the maintenance of vital societal functions, whose disruption or destruction would have significant impact in Hungary.",
-      "source_provision": "s459"
-    },
-    {
-      "term": "significant damage",
-      "definition": "Damage exceeding five hundred thousand forints.",
-      "source_provision": "s459"
-    }
-  ]
+  "definitions": []
 }

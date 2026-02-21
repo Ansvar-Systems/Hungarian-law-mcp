@@ -2,28 +2,19 @@
 /**
  * Hungarian Law MCP -- Ingestion Pipeline
  *
- * Fetches Hungarian legislation from the Sejm ELI API (api.sejm.gov.pl).
- * The Sejm (Hungarian Parliament) provides free public access to all legislation
- * published in Dziennik Ustaw (Journal of Laws) via the ELI API.
- *
- * Strategy:
- * 1. For each act, fetch the HTML text from the ELI API endpoint
- * 2. Parse articles (Art.) from the structured HTML
- * 3. Write seed JSON files for the database builder
+ * Fetches Hungarian legislation from the official Nemzeti Jogszabalytar portal
+ * (https://njt.hu), parses section-level provisions, and writes seed JSON files.
  *
  * Usage:
  *   npm run ingest                    # Full ingestion
- *   npm run ingest -- --limit 5       # Test with 5 acts
- *   npm run ingest -- --skip-fetch    # Reuse cached pages
- *
- * Data source: api.sejm.gov.pl (Chancellery of the Sejm of the Republic of Poland)
- * License: Hungarian legislation is public domain under Art. 4 of the Copyright Act
+ *   npm run ingest -- --limit 3       # Process first 3 acts
+ *   npm run ingest -- --skip-fetch    # Reuse locally cached HTML
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-import { fetchWithRateLimit } from './lib/fetcher.js';
+import { fetchWithRateLimit, postJsonWithRateLimit } from './lib/fetcher.js';
 import { parseHungarianHtml, KEY_HUNGARIAN_ACTS, type ActIndexEntry, type ParsedAct } from './lib/parser.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,9 +22,7 @@ const __dirname = path.dirname(__filename);
 
 const SOURCE_DIR = path.resolve(__dirname, '../data/source');
 const SEED_DIR = path.resolve(__dirname, '../data/seed');
-
-/** ELI API base URL for the Sejm */
-const ELI_API_BASE = 'https://api.sejm.gov.pl/eli/acts/DU';
+const BLOCK_ENDPOINT = 'https://njt.hu/ajax/njtGetBlock.json';
 
 function parseArgs(): { limit: number | null; skipFetch: boolean } {
   const args = process.argv.slice(2);
@@ -42,7 +31,7 @@ function parseArgs(): { limit: number | null; skipFetch: boolean } {
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--limit' && args[i + 1]) {
-      limit = parseInt(args[i + 1], 10);
+      limit = Number.parseInt(args[i + 1], 10);
       i++;
     } else if (args[i] === '--skip-fetch') {
       skipFetch = true;
@@ -52,40 +41,80 @@ function parseArgs(): { limit: number | null; skipFetch: boolean } {
   return { limit, skipFetch };
 }
 
-/**
- * Build the ELI API URL for fetching an act's HTML text.
- * Pattern: https://api.sejm.gov.pl/eli/acts/DU/{YEAR}/{POZ}/text.html
- */
-function buildTextUrl(act: ActIndexEntry): string {
-  return `${ELI_API_BASE}/${act.year}/${act.poz}/text.html`;
+function extractNjtDocumentId(url: string): string | null {
+  const match = url.match(/\/jogszabaly\/([^/?#]+)/);
+  return match ? match[1] : null;
+}
+
+function extractDeferredBlockStarts(html: string): number[] {
+  return [...html.matchAll(/class=\"pH borderStart\"data-show-order=\"(\d+)\"/g)]
+    .map(match => Number.parseInt(match[1], 10))
+    .filter(n => Number.isFinite(n))
+    .sort((a, b) => a - b);
+}
+
+async function hydrateDeferredBlocks(html: string, act: ActIndexEntry): Promise<string> {
+  const starts = extractDeferredBlockStarts(html);
+  if (starts.length === 0) return html;
+
+  const documentId = extractNjtDocumentId(act.url);
+  if (!documentId) return html;
+
+  const blockRanges = starts.map((start, index) => ({
+    start,
+    last: index + 1 < starts.length ? starts[index + 1] : null,
+  }));
+
+  const chunkSize = 20;
+  let appended = '';
+
+  for (let i = 0; i < blockRanges.length; i += chunkSize) {
+    const chunk = blockRanges.slice(i, i + chunkSize).map(range =>
+      range.last === null ? { start: range.start } : { start: range.start, last: range.last }
+    );
+
+    const response = await postJsonWithRateLimit(BLOCK_ENDPOINT, {
+      documentId,
+      data: chunk,
+    });
+
+    if (response.status !== 200) {
+      throw new Error(`Deferred block fetch failed for ${act.id} (HTTP ${response.status})`);
+    }
+
+    appended += `\n${response.body}`;
+  }
+
+  console.log(`    -> hydrated ${blockRanges.length} deferred block ranges`);
+  return `${html}\n${appended}`;
 }
 
 async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean): Promise<void> {
-  console.log(`\nProcessing ${acts.length} Hungarian Acts from api.sejm.gov.pl...\n`);
+  console.log(`\nProcessing ${acts.length} Hungarian statutes from njt.hu...\n`);
 
   fs.mkdirSync(SOURCE_DIR, { recursive: true });
   fs.mkdirSync(SEED_DIR, { recursive: true });
 
   let processed = 0;
-  let skipped = 0;
+  let cached = 0;
   let failed = 0;
   let totalProvisions = 0;
   let totalDefinitions = 0;
+
   const results: { act: string; provisions: number; definitions: number; status: string }[] = [];
 
   for (const act of acts) {
     const sourceFile = path.join(SOURCE_DIR, `${act.id}.html`);
     const seedFile = path.join(SEED_DIR, `${act.id}.json`);
 
-    // Skip if seed already exists and we're in skip-fetch mode
     if (skipFetch && fs.existsSync(seedFile)) {
       const existing = JSON.parse(fs.readFileSync(seedFile, 'utf-8')) as ParsedAct;
       const provCount = existing.provisions?.length ?? 0;
       const defCount = existing.definitions?.length ?? 0;
       totalProvisions += provCount;
       totalDefinitions += defCount;
-      results.push({ act: act.shortName, provisions: provCount, definitions: defCount, status: 'cached' });
-      skipped++;
+      results.push({ act: act.shortName ?? act.id, provisions: provCount, definitions: defCount, status: 'cached' });
+      cached++;
       processed++;
       continue;
     }
@@ -93,17 +122,21 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean): Pro
     try {
       let html: string;
 
-      if (fs.existsSync(sourceFile) && skipFetch) {
+      if (skipFetch && fs.existsSync(sourceFile)) {
         html = fs.readFileSync(sourceFile, 'utf-8');
-        console.log(`  Using cached ${act.shortName} (${act.dziennikRef}) (${(html.length / 1024).toFixed(0)} KB)`);
+        console.log(`  Using cached HTML for ${act.shortName ?? act.id}`);
       } else {
-        const textUrl = buildTextUrl(act);
-        process.stdout.write(`  Fetching ${act.shortName} (${act.dziennikRef})...`);
-        const result = await fetchWithRateLimit(textUrl);
+        process.stdout.write(`  Fetching ${act.shortName ?? act.id} (${act.url})...`);
+        const result = await fetchWithRateLimit(act.url);
 
         if (result.status !== 200) {
           console.log(` HTTP ${result.status}`);
-          results.push({ act: act.shortName, provisions: 0, definitions: 0, status: `HTTP ${result.status}` });
+          results.push({
+            act: act.shortName ?? act.id,
+            provisions: 0,
+            definitions: 0,
+            status: `HTTP ${result.status}`,
+          });
           failed++;
           processed++;
           continue;
@@ -111,10 +144,14 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean): Pro
 
         html = result.body;
 
-        // Validate that we got real legislation content, not a bot challenge
-        if (html.includes('window["bobcmn"]') || !html.includes('unit_arti')) {
-          console.log(` BLOCKED (bot challenge or no article content)`);
-          results.push({ act: act.shortName, provisions: 0, definitions: 0, status: 'BLOCKED' });
+        if (!html.includes('jogszabalyMainTitle') || !html.includes('szakasz-jel')) {
+          console.log(' NO_SECTION_CONTENT');
+          results.push({
+            act: act.shortName ?? act.id,
+            provisions: 0,
+            definitions: 0,
+            status: 'NO_SECTION_CONTENT',
+          });
           failed++;
           processed++;
           continue;
@@ -124,21 +161,29 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean): Pro
         console.log(` OK (${(html.length / 1024).toFixed(0)} KB)`);
       }
 
-      const parsed = parseHungarianHtml(html, act);
+      const hydratedHtml = await hydrateDeferredBlocks(html, act);
+      const parsed = parseHungarianHtml(hydratedHtml, act);
       fs.writeFileSync(seedFile, JSON.stringify(parsed, null, 2));
+
       totalProvisions += parsed.provisions.length;
       totalDefinitions += parsed.definitions.length;
+
       console.log(`    -> ${parsed.provisions.length} provisions, ${parsed.definitions.length} definitions extracted`);
       results.push({
-        act: act.shortName,
+        act: act.shortName ?? act.id,
         provisions: parsed.provisions.length,
         definitions: parsed.definitions.length,
         status: 'OK',
       });
     } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      console.log(`  ERROR ${act.shortName}: ${msg}`);
-      results.push({ act: act.shortName, provisions: 0, definitions: 0, status: `ERROR: ${msg.substring(0, 80)}` });
+      const message = error instanceof Error ? error.message : String(error);
+      console.log(`  ERROR ${act.shortName ?? act.id}: ${message}`);
+      results.push({
+        act: act.shortName ?? act.id,
+        provisions: 0,
+        definitions: 0,
+        status: `ERROR: ${message.substring(0, 80)}`,
+      });
       failed++;
     }
 
@@ -148,18 +193,20 @@ async function fetchAndParseActs(acts: ActIndexEntry[], skipFetch: boolean): Pro
   console.log(`\n${'='.repeat(72)}`);
   console.log('Ingestion Report');
   console.log('='.repeat(72));
-  console.log(`\n  Source:       api.sejm.gov.pl (Sejm ELI API)`);
-  console.log(`  License:     Public domain (Art. 4 Hungarian Copyright Act)`);
-  console.log(`  Processed:   ${processed}`);
-  console.log(`  Cached:      ${skipped}`);
-  console.log(`  Failed:      ${failed}`);
-  console.log(`  Total provisions:  ${totalProvisions}`);
-  console.log(`  Total definitions: ${totalDefinitions}`);
-  console.log(`\n  Per-Act breakdown:`);
-  console.log(`  ${'Act'.padEnd(20)} ${'Provisions'.padStart(12)} ${'Definitions'.padStart(13)} ${'Status'.padStart(10)}`);
-  console.log(`  ${'-'.repeat(20)} ${'-'.repeat(12)} ${'-'.repeat(13)} ${'-'.repeat(10)}`);
-  for (const r of results) {
-    console.log(`  ${r.act.padEnd(20)} ${String(r.provisions).padStart(12)} ${String(r.definitions).padStart(13)} ${r.status.padStart(10)}`);
+  console.log('\n  Source:       https://njt.hu');
+  console.log('  Authority:    Nemzeti Jogszabalytar / Magyar Kozlony');
+  console.log(`  Processed:    ${processed}`);
+  console.log(`  Cached:       ${cached}`);
+  console.log(`  Failed:       ${failed}`);
+  console.log(`  Provisions:   ${totalProvisions}`);
+  console.log(`  Definitions:  ${totalDefinitions}`);
+  console.log('\n  Per-Act breakdown:');
+  console.log(`  ${'Act'.padEnd(26)} ${'Provisions'.padStart(12)} ${'Definitions'.padStart(13)} ${'Status'.padStart(16)}`);
+  console.log(`  ${'-'.repeat(26)} ${'-'.repeat(12)} ${'-'.repeat(13)} ${'-'.repeat(16)}`);
+  for (const result of results) {
+    console.log(
+      `  ${result.act.padEnd(26)} ${String(result.provisions).padStart(12)} ${String(result.definitions).padStart(13)} ${result.status.padStart(16)}`
+    );
   }
   console.log('');
 }
@@ -168,19 +215,19 @@ async function main(): Promise<void> {
   const { limit, skipFetch } = parseArgs();
 
   console.log('Hungarian Law MCP -- Ingestion Pipeline');
-  console.log('====================================\n');
-  console.log(`  Source: api.sejm.gov.pl (Chancellery of the Sejm)`);
-  console.log(`  Format: ELI HTML (structured legislation text)`);
-  console.log(`  License: Public domain (Art. 4 Hungarian Copyright Act)`);
+  console.log('======================================\n');
+  console.log('  Source: https://njt.hu (official Hungarian legal portal)');
+  console.log('  Parse target: section-level text (szakasz, "§")');
+  console.log('  Rate limit: 1200ms/request');
 
   if (limit) console.log(`  --limit ${limit}`);
-  if (skipFetch) console.log(`  --skip-fetch`);
+  if (skipFetch) console.log('  --skip-fetch');
 
   const acts = limit ? KEY_HUNGARIAN_ACTS.slice(0, limit) : KEY_HUNGARIAN_ACTS;
   await fetchAndParseActs(acts, skipFetch);
 }
 
 main().catch(error => {
-  console.error('Fatal error:', error);
+  console.error('Fatal ingestion error:', error);
   process.exit(1);
 });
