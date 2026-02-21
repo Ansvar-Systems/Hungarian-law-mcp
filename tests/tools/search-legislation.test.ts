@@ -78,8 +78,31 @@ describe('searchLegislation', () => {
     });
   });
 
+  it('should filter by status', async () => {
+    const result = await searchLegislation(db, { query: 'adat', status: 'in_force' });
+    expect(result.results.length).toBeGreaterThanOrEqual(1);
+  });
+
   it('should include metadata in response', async () => {
     const result = await searchLegislation(db, { query: 'adat' });
     expect(result._metadata).toBeDefined();
+  });
+
+  it('should handle database query errors by returning empty results', async () => {
+    const fakeDb = {
+      prepare() {
+        return {
+          all() {
+            throw new Error('fts failure');
+          },
+          get() {
+            throw new Error('meta failure');
+          },
+        };
+      },
+    } as unknown as InstanceType<typeof Database>;
+
+    const result = await searchLegislation(fakeDb, { query: 'adat' });
+    expect(result.results).toHaveLength(0);
   });
 });

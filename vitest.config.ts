@@ -9,5 +9,16 @@ export default defineConfig({
       },
     },
     testTimeout: 30000,
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.ts'],
+      exclude: ['src/index.ts'],
+      thresholds: {
+        statements: 100,
+        branches: 100,
+        functions: 100,
+        lines: 100,
+      },
+    },
   },
 });

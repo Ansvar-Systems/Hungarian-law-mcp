@@ -39,6 +39,12 @@ describe('getProvision', () => {
     expect(result.results[0].content).toContain('információs rendszer');
   });
 
+  it('should retrieve provision by direct provision_ref', async () => {
+    const result = await getProvision(db, { document_id: 'criminal-code-cybercrime', provision_ref: 's423' });
+    expect(result.results).toHaveLength(1);
+    expect(result.results[0].section).toBe('423');
+  });
+
   it('should retrieve Trade Secrets Act § 2 (definition)', async () => {
     const result = await getProvision(db, { document_id: 'act-liv-2018-trade-secrets', section: '2' });
     expect(result.results).toHaveLength(1);
@@ -69,6 +75,18 @@ describe('getProvision', () => {
     expect(result.results).toHaveLength(0);
   });
 
+  it('should resolve by exact section column when s-prefix lookup does not match', async () => {
+    const result = await getProvision(db, { document_id: 'act-cxii-2011-info-self-determination', section: '37/A' });
+    expect(result.results).toHaveLength(1);
+    expect(result.results[0].section).toBe('37/A');
+  });
+
+  it('should resolve via LIKE fallback for flexible section input', async () => {
+    const result = await getProvision(db, { document_id: 'act-cxii-2011-info-self-determination', section: '7/A' });
+    expect(result.results).toHaveLength(1);
+    expect(result.results[0].section).toContain('37/');
+  });
+
   it('should resolve document by title_en via fuzzy match', async () => {
     const result = await getProvision(db, { document_id: 'Informational Self-Determination', section: '1' });
     expect(result.results).toHaveLength(1);
@@ -90,5 +108,57 @@ describe('getProvision', () => {
   it('should include metadata in response', async () => {
     const result = await getProvision(db, { document_id: 'act-cxii-2011-info-self-determination', section: '1' });
     expect(result._metadata).toBeDefined();
+  });
+
+  it('should handle resolved id with missing document row', async () => {
+    const fakeDb = {
+      prepare(sql: string) {
+        if (sql.includes('SELECT id FROM legal_documents WHERE id = ?')) {
+          return { get: () => ({ id: 'ghost-doc' }) };
+        }
+        if (sql.includes('SELECT id, title, url FROM legal_documents WHERE id = ?')) {
+          return { get: () => undefined };
+        }
+        return {
+          get: () => {
+            throw new Error('unexpected query');
+          },
+        };
+      },
+    } as unknown as InstanceType<typeof Database>;
+
+    const result = await getProvision(fakeDb, { document_id: 'ghost-doc', section: '1' });
+    expect(result.results).toHaveLength(0);
+  });
+
+  it('should map null URL to undefined for single and list responses', async () => {
+    const fakeDb = {
+      prepare(sql: string) {
+        if (sql.includes('SELECT id FROM legal_documents WHERE id = ?')) {
+          return { get: () => ({ id: 'doc-null-url' }) };
+        }
+        if (sql.includes('SELECT id, title, url FROM legal_documents WHERE id = ?')) {
+          return { get: () => ({ id: 'doc-null-url', title: 'Doc', url: null }) };
+        }
+        if (sql.includes('WHERE document_id = ? AND provision_ref = ?')) {
+          return { get: (_id: string, ref: string) => (ref === 's1' ? { provision_ref: 's1', chapter: null, section: '1', title: '1. §', content: 'text' } : undefined) };
+        }
+        if (sql.includes('WHERE document_id = ? ORDER BY id')) {
+          return { all: () => [{ provision_ref: 's1', chapter: null, section: '1', title: '1. §', content: 'text' }] };
+        }
+        return {
+          get: () => undefined,
+          all: () => [],
+        };
+      },
+    } as unknown as InstanceType<typeof Database>;
+
+    const single = await getProvision(fakeDb, { document_id: 'doc-null-url', section: '1' });
+    expect(single.results).toHaveLength(1);
+    expect(single.results[0].url).toBeUndefined();
+
+    const list = await getProvision(fakeDb, { document_id: 'doc-null-url' });
+    expect(list.results).toHaveLength(1);
+    expect(list.results[0].url).toBeUndefined();
   });
 });
