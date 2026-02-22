@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Database from '@ansvar/mcp-sqlite';
 import * as path from 'path';
+import * as fs from 'fs';
 import { fileURLToPath } from 'url';
 import { getProvision } from '../../src/tools/get-provision.js';
 
@@ -8,7 +9,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DB_PATH = path.resolve(__dirname, '../../data/database.db');
 
-describe('getProvision', () => {
+const DB_EXISTS = fs.existsSync(DB_PATH);
+
+const describeIf = DB_EXISTS ? describe : describe.skip;
+
+describeIf('getProvision', () => {
   let db: InstanceType<typeof Database>;
 
   beforeAll(() => {
