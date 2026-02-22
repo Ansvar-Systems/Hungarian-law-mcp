@@ -38,6 +38,17 @@ hungarian-law-mcp.vercel.app/mcp
 
 > Full provenance: [`sources.yml`](./sources.yml)
 
+## Coverage
+
+- Corpus coverage: `4304/4304` laws discovered from the `njt.hu` statute index are represented in `data/seed` (`hu-law-*` IDs), plus curated compatibility IDs.
+- Text coverage: `4` legacy laws are metadata-only because their public `njt.hu` pages expose no extractable body text in HTML.
+- Metadata-only laws:
+  - `hu-law-1946-25-00-00`
+  - `hu-law-1972-1-00-00`
+  - `hu-law-1989-31-00-00`
+  - `hu-law-2010-16-00-00`
+- OCR fallback is intentionally not used to avoid introducing non-canonical or error-prone legal text.
+
 ## Tools
 
 | Tool | Description |
