@@ -17,12 +17,15 @@
       "transport": {
         "type": "stdio"
       }
-    }
-  ],
-  "remotes": [
+    },
     {
-      "transportType": "streamable-http",
-      "url": "https://hungarian-law-mcp.vercel.app/mcp"
+      "registryType": "npm",
+      "identifier": "@ansvar/hungarian-law-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "streamable-http",
+        "url": "https://hungarian-law-mcp.vercel.app/mcp"
+      }
     }
   ]
 }
