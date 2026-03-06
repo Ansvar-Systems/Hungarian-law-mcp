@@ -54,7 +54,12 @@ describe('normalizeAsOfDate', () => {
 
 describe('fts-query helpers', () => {
   it('sanitizes FTS input', () => {
-    expect(sanitizeFtsInput(` "GDPR" (Article) 6* `)).toBe('GDPR Article 6');
+    expect(sanitizeFtsInput(` "GDPR" (Article) 6* `)).toBe('GDPR Article 6*');
+  });
+
+  it('preserves trailing wildcard for prefix search', () => {
+    expect(sanitizeFtsInput('control*')).toBe('control*');
+    expect(sanitizeFtsInput('a*b')).toBe('a b');
   });
 
   it('builds query variants', () => {
@@ -65,6 +70,8 @@ describe('fts-query helpers', () => {
       '"személyes adat"',
       'személyes AND adat',
       'személyes AND adat*',
+      'személy* AND adat',
+      'személyes OR adat',
     ]);
   });
 });
