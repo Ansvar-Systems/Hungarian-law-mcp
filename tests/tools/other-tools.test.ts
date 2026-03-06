@@ -36,13 +36,13 @@ describe('about and sources tools', () => {
       dbBuilt: '2026-02-21T00:00:00Z',
     });
 
-    expect(result.server).toBe('hungarian-law-mcp');
+    expect(result.name).toBe('Hungarian Law MCP');
     expect(result.version).toBe('1.2.3');
-    expect(result.database.fingerprint).toBe('abcdef123456');
-    expect(result.database.capabilities).toContain('core_legislation');
-    expect(result.statistics.documents).toBeGreaterThan(0);
-    expect(result.statistics.provisions).toBeGreaterThan(0);
-    expect(result.data_source.languages).toEqual(['hu', 'en']);
+    expect(result.jurisdiction).toBe('HU');
+    expect(result.stats.documents).toBeGreaterThan(0);
+    expect(result.stats.provisions).toBeGreaterThan(0);
+    expect(result.freshness.database_built).toBe('2026-02-21T00:00:00Z');
+    expect(result.data_sources[0].url).toBe('https://njt.hu');
   });
 
   it('handles missing optional count tables in about/list_sources', async () => {
@@ -52,9 +52,9 @@ describe('about and sources tools', () => {
       fingerprint: 'fingerprint',
       dbBuilt: '2026-02-21T00:00:00Z',
     });
-    expect(about.statistics.definitions).toBe(0);
-    expect(about.statistics.eu_documents).toBe(0);
-    expect(about.statistics.eu_references).toBe(0);
+    expect(about.stats.definitions).toBe(0);
+    expect(about.stats.eu_documents).toBeUndefined();
+    expect(about.stats.eu_references).toBeUndefined();
 
     const sources = await listSources(db);
     expect(sources.results.database.document_count).toBeGreaterThan(0);
@@ -77,8 +77,8 @@ describe('about and sources tools', () => {
       fingerprint: 'fp',
       dbBuilt: '2026-02-21T00:00:00Z',
     });
-    expect(about.statistics.documents).toBe(0);
-    expect(about.statistics.provisions).toBe(0);
+    expect(about.stats.documents).toBe(0);
+    expect(about.stats.provisions).toBe(0);
     const undefinedSources = await listSources(undefinedCountDb);
     expect(undefinedSources.results.database.document_count).toBe(0);
     expect(undefinedSources.results.database.provision_count).toBe(0);
