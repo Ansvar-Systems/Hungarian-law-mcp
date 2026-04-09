@@ -90,7 +90,7 @@ describeIf('searchLegislation', () => {
 
   it('should include metadata in response', async () => {
     const result = await searchLegislation(db, { query: 'adat' });
-    expect(result._metadata).toBeDefined();
+    expect(result._meta).toBeDefined();
   });
 
   it('should handle database query errors by returning empty results', async () => {

@@ -3,7 +3,7 @@
  */
 
 import type Database from '@ansvar/mcp-sqlite';
-import { generateResponseMetadata, type ToolResponse } from '../utils/metadata.js';
+import { generateResponseMetadata, type ToolResponse, type CitationRef } from '../utils/metadata.js';
 
 export interface SearchEUImplementationsInput {
   query?: string;
@@ -22,6 +22,7 @@ export interface EUImplementationSearchResult {
   title: string | null;
   short_name: string | null;
   hungarian_statute_count: number;
+  _citation?: CitationRef;
 }
 
 export async function searchEUImplementations(
@@ -33,9 +34,9 @@ export async function searchEUImplementations(
   } catch {
     return {
       results: [],
-      _metadata: {
+      _meta: {
         ...generateResponseMetadata(db),
-        ...{ note: 'EU documents not available in this database tier' },
+        note: 'EU documents not available in this database tier',
       },
     };
   }
@@ -87,5 +88,8 @@ export async function searchEUImplementations(
   params.push(limit);
 
   const rows = db.prepare(sql).all(...params) as EUImplementationSearchResult[];
-  return { results: rows, _metadata: generateResponseMetadata(db) };
+  for (const row of rows) {
+    row._citation = { tool: 'get_hungarian_implementations', params: { eu_document_id: row.eu_document_id } };
+  }
+  return { results: rows, _meta: generateResponseMetadata(db) };
 }

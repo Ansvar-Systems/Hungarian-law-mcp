@@ -112,7 +112,7 @@ describeIf('getProvision', () => {
 
   it('should include metadata in response', async () => {
     const result = await getProvision(db, { document_id: 'act-cxii-2011-info-self-determination', section: '1' });
-    expect(result._metadata).toBeDefined();
+    expect(result._meta).toBeDefined();
   });
 
   it('should handle resolved id with missing document row', async () => {

@@ -5,7 +5,7 @@
 import type Database from '@ansvar/mcp-sqlite';
 import { buildFtsQueryVariants, buildLikePattern, sanitizeFtsInput } from '../utils/fts-query.js';
 import { resolveDocumentId } from '../utils/statute-id.js';
-import { generateResponseMetadata, type ToolResponse } from '../utils/metadata.js';
+import { generateResponseMetadata, type ToolResponse, type CitationRef } from '../utils/metadata.js';
 
 export interface BuildLegalStanceInput {
   query: string;
@@ -21,6 +21,7 @@ export interface LegalStanceResult {
   title: string | null;
   snippet: string;
   relevance: number;
+  _citation?: CitationRef;
 }
 
 export async function buildLegalStance(
@@ -28,7 +29,7 @@ export async function buildLegalStance(
   input: BuildLegalStanceInput,
 ): Promise<ToolResponse<LegalStanceResult[]>> {
   if (!input.query || input.query.trim().length === 0) {
-    return { results: [], _metadata: generateResponseMetadata(db) };
+    return { results: [], _meta: generateResponseMetadata(db) };
   }
 
   const limit = Math.min(Math.max(input.limit ?? 5, 1), 20);
@@ -43,7 +44,7 @@ export async function buildLegalStance(
     if (!resolved) {
       return {
         results: [],
-        _metadata: {
+        _meta: {
           ...generateResponseMetadata(db),
           note: `No document found matching "${input.document_id}"`,
         },
@@ -82,10 +83,15 @@ export async function buildLegalStance(
       if (rows.length > 0) {
         queryStrategy = ftsQuery === queryVariants[0] ? 'exact' : 'fallback';
         const deduped = deduplicateResults(rows, limit);
+        const withCitations = deduped.map(r => ({
+          ...r,
+          _citation: { tool: 'get_provision', params: { document_id: r.document_id, section: r.section } } as CitationRef,
+        }));
         return {
-          results: deduped,
-          _metadata: {
+          results: withCitations,
+          _meta: {
             ...generateResponseMetadata(db),
+            disclaimer: 'RESEARCH ONLY — not legal advice. All citations must be verified against official njt.hu sources before use in any legal matter.',
             ...(queryStrategy === 'fallback' ? { query_strategy: 'broadened' } : {}),
           },
         };
@@ -124,10 +130,16 @@ export async function buildLegalStance(
     try {
       const rows = db.prepare(likeSql).all(...likeParams) as LegalStanceResult[];
       if (rows.length > 0) {
+        const deduped = deduplicateResults(rows, limit);
+        const withCitations = deduped.map(r => ({
+          ...r,
+          _citation: { tool: 'get_provision', params: { document_id: r.document_id, section: r.section } } as CitationRef,
+        }));
         return {
-          results: deduplicateResults(rows, limit),
-          _metadata: {
+          results: withCitations,
+          _meta: {
             ...generateResponseMetadata(db),
+            disclaimer: 'RESEARCH ONLY — not legal advice. All citations must be verified against official njt.hu sources before use in any legal matter.',
             query_strategy: 'like_fallback',
           },
         };
@@ -137,7 +149,7 @@ export async function buildLegalStance(
     }
   }
 
-  return { results: [], _metadata: generateResponseMetadata(db) };
+  return { results: [], _meta: generateResponseMetadata(db) };
 }
 
 /**
