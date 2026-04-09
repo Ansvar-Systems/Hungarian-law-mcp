@@ -25,6 +25,7 @@ import { validateEUCompliance, type ValidateEUComplianceInput } from './validate
 import { listSources } from './list-sources.js';
 import { getAbout, type AboutContext } from './about.js';
 import { detectCapabilities, upgradeMessage } from '../capabilities.js';
+import { generateResponseMetadata } from '../utils/metadata.js';
 export type { AboutContext } from './about.js';
 
 const ABOUT_TOOL: Tool = {
@@ -351,9 +352,11 @@ export function registerTools(
         case 'build_legal_stance':
           result = await buildLegalStance(db, args as unknown as BuildLegalStanceInput);
           break;
-        case 'format_citation':
-          result = await formatCitationTool(args as unknown as FormatCitationInput);
+        case 'format_citation': {
+          const fcResult = await formatCitationTool(args as unknown as FormatCitationInput);
+          result = { ...fcResult, _meta: generateResponseMetadata(db) };
           break;
+        }
         case 'check_currency':
           result = await checkCurrency(db, args as unknown as CheckCurrencyInput);
           break;
@@ -377,7 +380,8 @@ export function registerTools(
           break;
         case 'about':
           if (context) {
-            result = getAbout(db, context);
+            const aboutResult = getAbout(db, context);
+            result = { ...aboutResult, _meta: generateResponseMetadata(db) };
           } else {
             return {
               content: [{ type: 'text' as const, text: 'About tool not configured.' }],
@@ -397,8 +401,9 @@ export function registerTools(
       };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
+      const errorPayload = { error: message, _error_type: 'internal_error', _meta: generateResponseMetadata(db) };
       return {
-        content: [{ type: 'text' as const, text: `Error: ${message}` }],
+        content: [{ type: 'text' as const, text: JSON.stringify(errorPayload, null, 2) }],
         isError: true,
       };
     }

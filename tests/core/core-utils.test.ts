@@ -82,13 +82,13 @@ describe('generateResponseMetadata', () => {
     const metadata = generateResponseMetadata(db);
     expect(metadata.jurisdiction).toBe('HU');
     expect(metadata.data_source).toContain('njt.hu');
-    expect(metadata.freshness).toBe('2026-02-21T00:00:00Z');
+    expect(metadata.data_age).toBe('2026-02-21');
   });
 
   it('handles missing metadata table gracefully', () => {
     const db = trackDb(createTestDb({ withMetadataTable: false }));
     const metadata = generateResponseMetadata(db);
-    expect(metadata.freshness).toBeUndefined();
+    expect(metadata.data_age).toBeUndefined();
   });
 });
 

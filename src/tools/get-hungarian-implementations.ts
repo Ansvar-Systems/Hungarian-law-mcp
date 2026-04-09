@@ -3,7 +3,7 @@
  */
 
 import type Database from '@ansvar/mcp-sqlite';
-import { generateResponseMetadata, type ToolResponse } from '../utils/metadata.js';
+import { generateResponseMetadata, type ToolResponse, type CitationRef } from '../utils/metadata.js';
 
 export interface GetHungarianImplementationsInput {
   eu_document_id: string;
@@ -19,6 +19,7 @@ export interface HungarianImplementationResult {
   implementation_status: string | null;
   is_primary: boolean;
   reference_count: number;
+  _citation?: CitationRef;
 }
 
 export async function getHungarianImplementations(
@@ -30,9 +31,9 @@ export async function getHungarianImplementations(
   } catch {
     return {
       results: [],
-      _metadata: {
+      _meta: {
         ...generateResponseMetadata(db),
-        ...{ note: 'EU references not available in this database tier' },
+        note: 'EU references not available in this database tier',
       },
     };
   }
@@ -63,5 +64,8 @@ export async function getHungarianImplementations(
   sql += ' GROUP BY ld.id, er.reference_type ORDER BY is_primary DESC, reference_count DESC';
 
   const rows = db.prepare(sql).all(...params) as HungarianImplementationResult[];
-  return { results: rows, _metadata: generateResponseMetadata(db) };
+  for (const row of rows) {
+    row._citation = { tool: 'get_provision', params: { document_id: row.document_id } };
+  }
+  return { results: rows, _meta: generateResponseMetadata(db) };
 }

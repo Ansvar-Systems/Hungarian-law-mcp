@@ -222,19 +222,19 @@ describe('EU basis and implementation tools', () => {
     const db = trackDb(createTestDb({ withEuTables: false }));
     const basis = await getEUBasis(db, { document_id: 'doc-inforce' });
     expect(basis.results).toEqual([]);
-    expect((basis._metadata as Record<string, string>).note).toContain('EU references not available');
+    expect((basis._meta as Record<string, string>).note).toContain('EU references not available');
 
     const impl = await getHungarianImplementations(db, { eu_document_id: 'regulation:2016/679' });
     expect(impl.results).toEqual([]);
-    expect((impl._metadata as Record<string, string>).note).toContain('EU references not available');
+    expect((impl._meta as Record<string, string>).note).toContain('EU references not available');
 
     const perProvision = await getProvisionEUBasis(db, { document_id: 'doc-inforce', provision_ref: '1' });
     expect(perProvision.results).toEqual([]);
-    expect((perProvision._metadata as Record<string, string>).note).toContain('EU references not available');
+    expect((perProvision._meta as Record<string, string>).note).toContain('EU references not available');
 
     const search = await searchEUImplementations(db, { query: 'GDPR' });
     expect(search.results).toEqual([]);
-    expect((search._metadata as Record<string, string>).note).toContain('EU documents not available');
+    expect((search._meta as Record<string, string>).note).toContain('EU documents not available');
   });
 
   it('retrieves EU basis with filters and article expansion', async () => {

@@ -4,29 +4,37 @@
 
 import type Database from '@ansvar/mcp-sqlite';
 
+export interface CitationRef {
+  tool: string;
+  params: Record<string, string>;
+}
+
 export interface ResponseMetadata {
   data_source: string;
   jurisdiction: string;
   disclaimer: string;
-  freshness?: string;
+  data_age?: string;
+  source_url?: string;
+  copyright?: string;
   note?: string;
   query_strategy?: string;
 }
 
 export interface ToolResponse<T> {
   results: T;
-  _metadata: ResponseMetadata;
+  _meta: ResponseMetadata;
+  _error_type?: string;
 }
 
 export function generateResponseMetadata(
   db: InstanceType<typeof Database>,
 ): ResponseMetadata {
-  let freshness: string | undefined;
+  let data_age: string | undefined;
   try {
     const row = db.prepare(
       "SELECT value FROM db_metadata WHERE key = 'built_at'"
     ).get() as { value: string } | undefined;
-    if (row) freshness = row.value;
+    if (row) data_age = row.value.slice(0, 10);
   } catch {
     // Ignore
   }
@@ -38,6 +46,8 @@ export function generateResponseMetadata(
       'This data is sourced from the Nemzeti Jogszabálytár (National Legislation Database) under public domain. ' +
       'The authoritative versions are maintained by Magyar Közlöny (Hungarian Official Gazette). ' +
       'Always verify with the official Nemzeti Jogszabálytár (National Legislation Database) portal (njt.hu).',
-    freshness,
+    data_age,
+    source_url: 'https://njt.hu',
+    copyright: 'Magyar Közlöny — Ministry of Justice, Hungary (public domain)',
   };
 }

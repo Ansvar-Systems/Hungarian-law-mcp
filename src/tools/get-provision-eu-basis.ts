@@ -4,7 +4,7 @@
 
 import type Database from '@ansvar/mcp-sqlite';
 import { resolveDocumentId } from '../utils/statute-id.js';
-import { generateResponseMetadata, type ToolResponse } from '../utils/metadata.js';
+import { generateResponseMetadata, type ToolResponse, type CitationRef } from '../utils/metadata.js';
 
 export interface GetProvisionEUBasisInput {
   document_id: string;
@@ -19,6 +19,7 @@ export interface ProvisionEUBasisResult {
   reference_type: string;
   reference_context: string | null;
   full_citation: string | null;
+  _citation?: CitationRef;
 }
 
 export async function getProvisionEUBasis(
@@ -27,7 +28,7 @@ export async function getProvisionEUBasis(
 ): Promise<ToolResponse<ProvisionEUBasisResult[]>> {
   const resolvedId = resolveDocumentId(db, input.document_id);
   if (!resolvedId) {
-    return { results: [], _metadata: generateResponseMetadata(db) };
+    return { results: [], _meta: generateResponseMetadata(db) };
   }
 
   try {
@@ -35,9 +36,9 @@ export async function getProvisionEUBasis(
   } catch {
     return {
       results: [],
-      _metadata: {
+      _meta: {
         ...generateResponseMetadata(db),
-        ...{ note: 'EU references not available in this database tier' },
+        note: 'EU references not available in this database tier',
       },
     };
   }
@@ -49,7 +50,7 @@ export async function getProvisionEUBasis(
   ).get(resolvedId, ref, `s${ref}`, ref) as { id: number } | undefined;
 
   if (!provision) {
-    return { results: [], _metadata: generateResponseMetadata(db) };
+    return { results: [], _meta: generateResponseMetadata(db) };
   }
 
   const rows = db.prepare(`
@@ -67,5 +68,9 @@ export async function getProvisionEUBasis(
     ORDER BY er.reference_type, er.eu_document_id
   `).all(provision.id) as ProvisionEUBasisResult[];
 
-  return { results: rows, _metadata: generateResponseMetadata(db) };
+  for (const row of rows) {
+    row._citation = { tool: 'get_hungarian_implementations', params: { eu_document_id: row.eu_document_id } };
+  }
+
+  return { results: rows, _meta: generateResponseMetadata(db) };
 }
