@@ -358,8 +358,24 @@ Apache License 2.0. See [LICENSE](./LICENSE) for details.
 
 ### Data Licenses
 
-- **Statutes & Legislation:** Hungarian Government / njt.hu (public domain)
-- **EU Metadata:** EUR-Lex (EU public domain)
+Ansvar attribution code: **`Hungarian-Szjt-Section-1-4`**. Basis: Szjt.
+(Act LXXVI of 1999 on Copyright) §1(4) — broad statutory-PD carve-out
+for legislative and administrative materials.
+
+- **Statutes & Legislation:** Nemzeti Jogszabálytár (NJT) — canonical
+  portal at [`njt.jog.gov.hu`](https://njt.jog.gov.hu) (migrated from
+  `njt.hu`). Reused under Szjt. §1(4).
+- **EU Metadata:** EUR-Lex (EU public-domain notice).
+
+### Coverage scope
+
+Hungarian Szjt. §1(4) is a broad statutory-PD carve-out covering
+legislative acts, administrative acts, official decisions, and other
+official documents.
+
+See `docs/audits/2026-05-17-eu-copyright-statutory-works-batch-2-HU-LU-PT-RO-GR.md`
+in the Ansvar architecture-documentation repo for the verbatim §1(4)
+text and the coverage analysis.
 
 ---
 

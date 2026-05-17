@@ -5,14 +5,17 @@ jurisdiction: "HU"
 sources:
   - name: "Nemzeti Jogszabálytár (National Legislation Database)"
     authority: "Magyar Közlöny (Hungarian Official Gazette)"
-    official_portal: "https://njt.hu"
+    official_portal: "https://njt.jog.gov.hu"
     retrieval_method: "HTML_SCRAPE"
     update_frequency: "weekly"
     last_ingested: "2026-02-21"
     license_or_terms:
-      type: "Official Hungarian legal text publication (see portal terms)"
-      url: "https://njt.hu"
-      summary: "Legislative texts are sourced from the official national legislation portal."
+      type: "Hungarian-Szjt-Section-1-4"
+      ansvar_code: "Hungarian-Szjt-Section-1-4"
+      statute_ref: "Szjt. (Act LXXVI of 1999) §1(4)"
+      url: "https://njt.jog.gov.hu"
+      url_pattern: '^https?://(?:www\.)?njt\.jog\.gov\.hu/.+'
+      summary: "Hungarian statutory-PD carve-out per Szjt. §1(4) (broad). NJT canonical portal migrated from njt.hu to njt.jog.gov.hu — this MCP's source URLs should follow the migration. See infrastructure/attribution-licenses.json Hungarian-Szjt-Section-1-4."
     coverage:
       scope: "Full indexed corpus of Hungarian statutes discoverable via njt.hu simple search (author_type=törvény), including canonical curated statutes and discovered hu-law-* records."
       limitations: "As of 2026-02-21, 4 legacy statutes expose no extractable body text in public njt.hu HTML and are stored as metadata-only records (no fabricated provisions). Some canonical statutes are represented under stable curated MCP IDs with hu-law-* metadata aliases."
